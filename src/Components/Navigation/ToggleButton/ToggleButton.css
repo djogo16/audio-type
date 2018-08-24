@@ -1,0 +1,9 @@
+.ToggleButton{
+    height:80%;
+    width:40px;
+    top:0;
+    left:0;
+    background-color: bisque;
+    border:none;
+    color: white
+}

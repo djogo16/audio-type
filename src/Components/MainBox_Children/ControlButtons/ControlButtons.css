@@ -1,0 +1,26 @@
+.ControlButtons{
+    background-color:whitesmoke;
+    border-top: 2px solid lightcoral;
+    border-bottom: 2px solid lightcoral;
+    height: 35px;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom:5px;
+}
+.Sliders{
+    display: block;
+    width: 300px;
+    z-index:110;
+    padding-top:10px;
+    padding-bottom:10px;
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 170;
+    background-color :mintcream;
+    margin-left:100px;
+    box-shadow: 0px 2px 14px #000;
+    
+    
+    
+}
