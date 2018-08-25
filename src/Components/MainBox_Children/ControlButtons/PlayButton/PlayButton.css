@@ -1,0 +1,15 @@
+.PlayButton{
+    display: inline-block;
+    border:none;
+    background-color: whitesmoke;
+    outline: none;
+    margin-top: 8px;
+    color:rgb(179, 156, 156);
+    margin-right: 30px;
+    
+    
+}
+.PlayButton:hover,
+.PlayButton:active{
+    color: indianred;
+}

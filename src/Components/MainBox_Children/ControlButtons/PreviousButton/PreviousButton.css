@@ -1,0 +1,15 @@
+.PreviousButton{
+    display: inline-block;
+    border:none;
+    background-color: whitesmoke;
+    outline: none;
+    margin-top: 8px;
+    color:rgb(179, 156, 156);
+    margin-right: 30px;
+    
+    
+}
+.PreviousButton:hover,
+.PreviousButton:active{
+    color: indianred;
+}
