@@ -18,6 +18,7 @@
       border-top:1px solid #FFF;
       border-bottom:1px solid #FFF;
       box-sizing: border-box;
+      position: relative;
   }
   .Button {
       cursor:pointer;

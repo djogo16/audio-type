@@ -5,12 +5,10 @@ import { Icon } from 'react-icons-kit';
 import {settings} from 'react-icons-kit/ionicons/settings';
 import "../../../../index"
 
-const settingsButton = ()=>(
+const settingsButton = (props)=>(
     <Aux>
-        <button  className={Classes.SettingsButton} onClick = {() => {
-
-
-        }}><Icon icon = {settings}/></button>
+        <button  className={Classes.SettingsButton} onClick = {props.onClick}>
+        <Icon icon = {settings}/></button>
 
     
     </Aux>

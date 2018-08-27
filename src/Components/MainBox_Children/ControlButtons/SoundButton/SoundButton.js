@@ -4,12 +4,9 @@ import Aux from '../../../../hoc/Aux.js';
 import { Icon } from 'react-icons-kit';
 import {volumeMedium} from 'react-icons-kit/icomoon/volumeMedium';
 
-const soundButton = ()=>(
+const soundButton = (props)=>(
     <Aux>
-        <button className={Classes.SoundButton} onClick = {() => {
-
-
-        }}><Icon icon ={volumeMedium} /></button>
+        <button className={Classes.SoundButton} onClick = {props.onClick}><Icon icon ={volumeMedium} /></button>
 
     
     </Aux>

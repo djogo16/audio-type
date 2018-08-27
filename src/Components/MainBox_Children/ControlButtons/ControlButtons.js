@@ -11,8 +11,8 @@ import Classes from './ControlButtons.css';
 const controlButtons = (props) =>(
         <div className ={Classes.ControlButtons}>
             <RepeatButton/>
-            <SoundButton/>
-            <SettingsButton/>
+            <SoundButton onClick = {props.volumeClicked}/>
+            <SettingsButton onClick = {props.settingsClicked}/>
             {props.isPauseActive ?
             <PlayButton onClick = {props.playClicked}/> :
             <PauseButton onClick = {props.pauseClicked}/>}
