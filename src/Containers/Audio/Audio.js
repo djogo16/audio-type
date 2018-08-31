@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import Sound from 'react-sound';
-import URL from '../../assets/Audios/candide_09_voltaire_64kb.mp3';
+import URL from '../../assets/Audios/3081-166546-0047.flac';
 import Aux from '../../hoc/Aux'
 import ControlButtons from '../../Components/MainBox_Children/ControlButtons/ControlButtons'
 import DropDownMenu from '../../Components/MainBox_Children/DropDownMenu/DropDownMenu'
+import axios from 'axios'
 class Audio extends Component{
     constructor(props){
         super(props)
@@ -15,9 +16,25 @@ class Audio extends Component{
             isSpeechRateMenuActive : false,
             volume : 80,
             speechRate: 1,
+            audioUrl: "",
             
         }
-    } 
+    }
+    getRandomAudioURL = ()=> {
+        axios.get("http://127.0.0.1:8000/audio/")
+        .then(response =>{
+            axios.get("http://127.0.0.1:8000/audio/"+Math.floor(Math.random() * response.data.length))
+            .then(response =>{
+                this.setState({audioUrl:response.data.audio})
+                //console.log(this.state.url);
+            });
+
+        });
+            
+        
+    }
+    
+
     PlayClickedHandler = ()=>{
 
         this.state.isPlayActive? this.setState({isPlayActive:false}) :this.setState({isPlayActive:true});
@@ -50,13 +67,13 @@ class Audio extends Component{
     }
 
     render(){
-        
+        //"/home/fmk/Downloads/LibriSpeech/dev-clean/3081/166546/3081-166546-0010.flac"
         return(
             <Aux>
-                <h2 onClick  = {this.PlayClickedHandler} style = {{color: "IndianRed"}}>Click here</h2>
+                <h2 onClick  = {this.getRandomAudioURL} style = {{color: "IndianRed"}}>Click Here to Generate Random Audio</h2>
                 {this.state.isPlayActive?
-                <Sound url = {URL} playStatus = {Sound.status.PLAYING} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>:
-                <Sound url = {URL} playStatus = {Sound.status.PAUSED} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>}
+                <Sound url = {this.state.audioUrl} playStatus = {Sound.status.PLAYING} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>:
+                <Sound url = {this.state.audioUrl} playStatus = {Sound.status.PAUSED} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>}
                 <ControlButtons
                     playClicked = {this.PlayClickedHandler}
                     pauseClicked = {this.PauseClickedHandler}
