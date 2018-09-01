@@ -4,6 +4,7 @@ import URL from '../../assets/Audios/3081-166546-0047.flac';
 import Aux from '../../hoc/Aux'
 import ControlButtons from '../../Components/MainBox_Children/ControlButtons/ControlButtons'
 import DropDownMenu from '../../Components/MainBox_Children/DropDownMenu/DropDownMenu'
+import SearchBar from '../../Components/SearchBar/SearchBar'
 import axios from 'axios'
 class Audio extends Component{
     constructor(props){
@@ -70,7 +71,8 @@ class Audio extends Component{
         //"/home/fmk/Downloads/LibriSpeech/dev-clean/3081/166546/3081-166546-0010.flac"
         return(
             <Aux>
-                <h2 onClick  = {this.getRandomAudioURL} style = {{color: "IndianRed"}}>Click Here to Generate Random Audio</h2>
+                {/* <h3   onClick  = {this.getRandomAudioURL} style = {{color: "IndianRed"}}>Click Here to Generate Random Audio</h3> */}
+                <SearchBar onClick  = {this.getRandomAudioURL}/>
                 {this.state.isPlayActive?
                 <Sound url = {this.state.audioUrl} playStatus = {Sound.status.PLAYING} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>:
                 <Sound url = {this.state.audioUrl} playStatus = {Sound.status.PAUSED} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>}

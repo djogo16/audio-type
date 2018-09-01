@@ -4,7 +4,7 @@ import classes from './NavigationItems.css'
 
 const navigationItems = ()=>(
     <ul className ={classes.NavigationItems}>
-       <NavigationItem link = '/' active>Menu</NavigationItem>
+       <NavigationItem link = '/' >Menu</NavigationItem>
        <NavigationItem link = '/'>Score</NavigationItem>
     </ul>
 );
