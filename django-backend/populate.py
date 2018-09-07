@@ -1,5 +1,3 @@
-#Populate database with LIbrispeech ASR data(http://www.openslr.org/12/)
-
 import get_fields
 from audio.models import Book, Chapter, Audio
 

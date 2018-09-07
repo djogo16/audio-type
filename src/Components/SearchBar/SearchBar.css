@@ -11,9 +11,13 @@
     padding-right: 10px;
 
 }
-.SearchBar input{
-    width: 50%;
+.SearchBar form{
+    width:55%;
     height: 50px;
+}
+.SearchBar input{
+    width: 100%;
+    height: 100%;
     font-size: 17px;
     border-width: 2pxpx;
     border-radius:8px;
