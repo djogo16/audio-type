@@ -18,6 +18,7 @@ class Audio extends Component{
             volume : 80,
             speechRate: 1,
             audioUrl: "",
+            isSearchResultVisible:false,
             
         }
     }
@@ -33,6 +34,12 @@ class Audio extends Component{
         });
             
         
+    }
+    SearchAudioHandler = (event)=>{
+        this.setState({isSearchResultVisible:true})
+        event.preventDefault()
+        //axios.get("http:?search...")
+        // .then(res=>this.setState({audioUrl:res.data.audio}))
     }
     
 
@@ -72,7 +79,7 @@ class Audio extends Component{
         return(
             <Aux>
                 {/* <h3   onClick  = {this.getRandomAudioURL} style = {{color: "IndianRed"}}>Click Here to Generate Random Audio</h3> */}
-                <SearchBar onClick  = {this.getRandomAudioURL}/>
+                <SearchBar onSubmit = {this.SearchAudioHandler} randomButtonCliked  = {this.getRandomAudioURL} displayResult = {this.state.isSearchResultVisible}/>
                 {this.state.isPlayActive?
                 <Sound url = {this.state.audioUrl} playStatus = {Sound.status.PLAYING} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>:
                 <Sound url = {this.state.audioUrl} playStatus = {Sound.status.PAUSED} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>}
