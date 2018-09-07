@@ -19,13 +19,14 @@ class Audio extends Component{
             speechRate: 1,
             audioUrl: "",
             isSearchResultVisible:false,
-            
+            book_title: "",
+            book_chapters:"",
         }
     }
     getRandomAudioURL = ()=> {
-        axios.get("http://127.0.0.1:8000/audio/")
+        axios.get("http://127.0.0.1:8001/audio/")
         .then(response =>{
-            axios.get("http://127.0.0.1:8000/audio/"+Math.floor(Math.random() * response.data.length))
+            axios.get("http://127.0.0.1:8001/audio/"+Math.floor(Math.random() * response.data.length))
             .then(response =>{
                 this.setState({audioUrl:response.data.audio})
                 //console.log(this.state.url);
@@ -38,8 +39,16 @@ class Audio extends Component{
     SearchAudioHandler = (event)=>{
         this.setState({isSearchResultVisible:true})
         event.preventDefault()
-        //axios.get("http:?search...")
-        // .then(res=>this.setState({audioUrl:res.data.audio}))
+        axios.get("http://127.0.0.1:8000/audio/book?title=" + document.getElementById("searchBook").value.replace(/ /g, "+"))
+         .then(res=>{
+             this.setState({searchResult:res.data['0'],book_title:res.data['0']['title'],book_chapters:res.data['0']['chapters']})
+            console.log(this.state.searchResult)
+            console.log(res.data['0']['title'])
+            console.log(res.data['0']['chapters'])
+         })
+    }
+    SearchInputFieldChangeHandler = () =>{
+        console.log("some")
     }
     
 
@@ -79,7 +88,7 @@ class Audio extends Component{
         return(
             <Aux>
                 {/* <h3   onClick  = {this.getRandomAudioURL} style = {{color: "IndianRed"}}>Click Here to Generate Random Audio</h3> */}
-                <SearchBar onSubmit = {this.SearchAudioHandler} randomButtonCliked  = {this.getRandomAudioURL} displayResult = {this.state.isSearchResultVisible}/>
+                <SearchBar onSubmit = {this.SearchAudioHandler} onChange ={this.SearchInputFieldChangeHandler} randomButtonCliked  = {this.getRandomAudioURL} book = {this.state.book_title} chapters = {this.state.book_chapters} displayResult = {this.state.isSearchResultVisible}/>
                 {this.state.isPlayActive?
                 <Sound url = {this.state.audioUrl} playStatus = {Sound.status.PLAYING} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>:
                 <Sound url = {this.state.audioUrl} playStatus = {Sound.status.PAUSED} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>}

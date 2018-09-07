@@ -31,6 +31,13 @@
     outline: none;
     border:none;
     box-sizing: border-box;
+    
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
 }
 .SearchBar form:focus{
     border-color: brown;

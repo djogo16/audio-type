@@ -20,16 +20,16 @@ class SearchBar extends Component{
             <Aux>
                 <div className = {Classes.SearchBar}>
                     <form  onSubmit = {this.props.onSubmit}>
-                        <input  type= 'text'  placeholder = 'Search Book or Author to read from'/>
+                        <input  type= 'text' id = 'searchBook' onChange={this.props.onChange} placeholder = 'Search Book or Author to read from'/>
                         <div  className={Classes.SearchButton} onClick = {this.props.onSubmit}><Icon icon = {search}/>
                         </div>
                     </form>
                     <h3>or</h3>
-                    <button onClick = {this.props.randomButtonClicked}>Random Audio</button>
+                    <button onClick = {this.props.randomButtonCliked}>Random Audio</button>
                 </div>
                 {this.props.displayResult ?
-                <SearchResult result = "some text"/> : null}
-                {console.log(this.props.displayResult)}
+                 <SearchResult book = {this.props.book} chapters = {this.props.chapters}/> : null} 
+                 {console.log(this.props.displayResult)} 
             </Aux>
             
         );
