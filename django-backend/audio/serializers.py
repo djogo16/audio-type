@@ -15,7 +15,7 @@ class AudioSerializer(serializers.ModelSerializer):
         model = Audio
 
 class BookSerializer(serializers.ModelSerializer):
-	chapters = serializers.SlugRelatedField(many=True, read_only = True, slug_field = 'title')
+	chapters = serializers.StringRelatedField(many=True)
 	class Meta:
 		fields = (
 		    'id',
