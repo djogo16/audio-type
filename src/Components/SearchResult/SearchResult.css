@@ -1,0 +1,17 @@
+.SearchResult h3{
+    color: brown;
+    border-bottom: 2px solid white
+    
+    
+}
+.SearchResult ul{
+    list-style: none;
+}
+.SearchResult li{
+    padding: 5px;
+
+}
+.SearchResult li:hover,
+.SearchResult li:active{
+    color: indianred;
+}
