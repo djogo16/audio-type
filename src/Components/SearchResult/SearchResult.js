@@ -21,8 +21,9 @@ class SearchResult extends Component{
                     <p>Select chapter to read from:</p>
                     <ul>
                         {chapters.map(c =>{
-                            let c_array = c.split("-")
-                            return <li key={c_array[0]}>{c_array[1]}</li>
+                            c = c.replace(/^[^.]+\./, "")
+                            let c_array = c.split("|")
+                            return <li id = {c_array[1]}onClick = {this.props.clicked} key={c_array[1]}>{c_array[0]}</li>
                             })
                         }
 

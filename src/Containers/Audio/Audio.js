@@ -19,7 +19,10 @@ class Audio extends Component{
             isSpeechRateMenuActive : false,
             volume : 80,
             speechRate: 1,
-            audioUrl: "",
+            audioUrl: '',
+            audioUrls: [],
+            urlIndex: 0,
+            texts: [],
             isSearchResultVisible:false,
             bookTitle: "",
             bookChapters:"",
@@ -42,12 +45,13 @@ class Audio extends Component{
     SearchAudioHandler = (event)=>{
         this.setState({isSearchResultVisible:true})
         event.preventDefault()
-        axios.get("http://127.0.0.1:8000/audio/book?title=" + this.state.searchInputFieldValue.replace(/ /g, "+"))
+        axios.get("http://127.0.0.1:8001/audio/book?title=" + this.state.searchInputFieldValue.replace(/ /g, "+"))
          .then(res=>{
              this.setState({searchResult:res.data['0'],bookTitle:res.data['0']['title'],bookChapters:res.data['0']['chapters']})
-            console.log(this.state.searchResult)
-            console.log(res.data['0']['title'])
-            //console.log(res.data['0']['chapters'])
+            //console.log(this.state.searchResult)
+            //console.log(res.data)
+            //console.log(res.data['0']['title'])
+            console.log(res.data['0']['chapters'])
          })
     }
     SearchInputFieldChangeHandler = (event) =>{
@@ -81,11 +85,24 @@ class Audio extends Component{
         this.setState({isVolumeMenuActive:false})
         this.state.isSettingsMenuActive? this.setState({isSettingsMenuActive:false}) :this.setState({isSettingsMenuActive:true})
     }
-    SpeechRateChangedHandler = (e) =>{
-        this.setState({ speechRate: e.target.value })
+    SpeechRateChangedHandler = (event) =>{
+        this.setState({ speechRate: event.target.value })
     }
-    VolumeChangedHandler = (e) =>{
-        this.setState({ volume:e.target.value })
+    VolumeChangedHandler = (event) =>{
+        this.setState({ volume:event.target.value })
+    }
+    ChapterClickedHandler = (event)=>{
+        axios.get("http://127.0.0.1:8001/audio/chapter?chapter_id=" + event.target.id)
+        .then(res =>{
+            for (let i in res.data){
+                this.setState(previousState =>(
+                    {audioUrls:previousState.audioUrls.concat(res.data[i]["audio"]),
+                    texts: previousState.texts.concat(res.data[i]["text"])
+                }))
+                //console.log(this.state.texts)
+                //console.log((res.data[i]))
+            }
+        })
     }
 
     render(){
@@ -95,7 +112,7 @@ class Audio extends Component{
                 {/* <h3   onClick  = {this.getRandomAudioURL} style = {{color: "IndianRed"}}>Click Here to Generate Random Audio</h3> */}
                 <Modal show = {this.state.isSearchResultVisible}>
                 {this.state.isSearchResultVisible ?
-                 <SearchResult book = {this.state.bookTitle} chapters = {this.state.bookChapters}/> : null} 
+                 <SearchResult book = {this.state.bookTitle} chapters = {this.state.bookChapters} clicked = {this.ChapterClickedHandler}/> : null} 
                 </Modal>
                 <SearchBar onSubmit = {this.SearchAudioHandler} onChange ={this.SearchInputFieldChangeHandler} randomButtonCliked  = {this.getRandomAudioURL} book = {this.state.bookTitle} chapters = {this.state.bookChapters}/>
                 {this.state.isPlayActive?
