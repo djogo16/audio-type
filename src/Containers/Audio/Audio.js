@@ -5,6 +5,8 @@ import Aux from '../../hoc/Aux'
 import ControlButtons from '../../Components/MainBox_Children/ControlButtons/ControlButtons'
 import DropDownMenu from '../../Components/MainBox_Children/DropDownMenu/DropDownMenu'
 import SearchBar from '../../Components/SearchBar/SearchBar'
+import Modal from '../../Components/Modal/Modal'
+import SearchResult from '../../Components/SearchResult/SearchResult'
 import axios from 'axios'
 class Audio extends Component{
     constructor(props){
@@ -19,8 +21,9 @@ class Audio extends Component{
             speechRate: 1,
             audioUrl: "",
             isSearchResultVisible:false,
-            book_title: "",
-            book_chapters:"",
+            bookTitle: "",
+            bookChapters:"",
+            searchInputFieldValue : "",
         }
     }
     getRandomAudioURL = ()=> {
@@ -39,16 +42,18 @@ class Audio extends Component{
     SearchAudioHandler = (event)=>{
         this.setState({isSearchResultVisible:true})
         event.preventDefault()
-        axios.get("http://127.0.0.1:8000/audio/book?title=" + document.getElementById("searchBook").value.replace(/ /g, "+"))
+        axios.get("http://127.0.0.1:8000/audio/book?title=" + this.state.searchInputFieldValue.replace(/ /g, "+"))
          .then(res=>{
-             this.setState({searchResult:res.data['0'],book_title:res.data['0']['title'],book_chapters:res.data['0']['chapters']})
+             this.setState({searchResult:res.data['0'],bookTitle:res.data['0']['title'],bookChapters:res.data['0']['chapters']})
             console.log(this.state.searchResult)
             console.log(res.data['0']['title'])
-            console.log(res.data['0']['chapters'])
+            //console.log(res.data['0']['chapters'])
          })
     }
-    SearchInputFieldChangeHandler = () =>{
-        console.log("some")
+    SearchInputFieldChangeHandler = (event) =>{
+        //this.setState((prevState,newsSate)=>{searchInputFieldValue: document.getElementById("searchBook").value})
+        this.setState({searchInputFieldValue:event.target.value})
+        console.log(this.state.searchInputFieldValue)
     }
     
 
@@ -88,7 +93,11 @@ class Audio extends Component{
         return(
             <Aux>
                 {/* <h3   onClick  = {this.getRandomAudioURL} style = {{color: "IndianRed"}}>Click Here to Generate Random Audio</h3> */}
-                <SearchBar onSubmit = {this.SearchAudioHandler} onChange ={this.SearchInputFieldChangeHandler} randomButtonCliked  = {this.getRandomAudioURL} book = {this.state.book_title} chapters = {this.state.book_chapters} displayResult = {this.state.isSearchResultVisible}/>
+                <Modal show = {this.state.isSearchResultVisible}>
+                {this.state.isSearchResultVisible ?
+                 <SearchResult book = {this.state.bookTitle} chapters = {this.state.bookChapters}/> : null} 
+                </Modal>
+                <SearchBar onSubmit = {this.SearchAudioHandler} onChange ={this.SearchInputFieldChangeHandler} randomButtonCliked  = {this.getRandomAudioURL} book = {this.state.bookTitle} chapters = {this.state.bookChapters}/>
                 {this.state.isPlayActive?
                 <Sound url = {this.state.audioUrl} playStatus = {Sound.status.PLAYING} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>:
                 <Sound url = {this.state.audioUrl} playStatus = {Sound.status.PAUSED} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>}

@@ -27,9 +27,8 @@ class SearchBar extends Component{
                     <h3>or</h3>
                     <button onClick = {this.props.randomButtonCliked}>Random Audio</button>
                 </div>
-                {this.props.displayResult ?
-                 <SearchResult book = {this.props.book} chapters = {this.props.chapters}/> : null} 
-                 {console.log(this.props.displayResult)} 
+                
+                 {/* {console.log(this.props.displayResult)}  */}
             </Aux>
             
         );
