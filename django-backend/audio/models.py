@@ -20,17 +20,17 @@ class Chapter(models.Model):
 	book_id = models.ForeignKey(Book, on_delete=models.CASCADE,related_name = 'chapters')
 	title = models.CharField(max_length = 250)
 	
-class Meta:
-	unique_together = ('book_id', 'title')
+	class Meta:
+		unique_together = ('book_id', 'title')
 	
 	def __str__(self):
-		return self.title
+		return (self.title + "|" + str(self.id))
 
 	def __unicode__(self):
         	return '%s' % (self.title)
 	
 
-class Audio(models.Model):
+class Audio(models.Model):	
 
 	"""model representing audios"""
 
