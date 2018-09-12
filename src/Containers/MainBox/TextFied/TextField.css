@@ -44,4 +44,20 @@
     border-bottom: 4px solid #ff4488;
     color: white
   }
+  .Result{
+      display:flex;
+      justify-content: space-around;
+  }
+  .Result section{
+      display: inline;
+      margin:auto;
+      color: green;
+  }
+  .Result span{
+      color:red;
+  }
+  .ResultChildren{
+      width: 50%;
+      text-align: left;
+  }
   

@@ -1,13 +1,14 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import Sound from 'react-sound';
 import URL from '../../assets/Audios/3081-166546-0047.flac';
-import Aux from '../../hoc/Aux'
-import ControlButtons from '../../Components/MainBox_Children/ControlButtons/ControlButtons'
-import DropDownMenu from '../../Components/MainBox_Children/DropDownMenu/DropDownMenu'
-import SearchBar from '../../Components/SearchBar/SearchBar'
-import Modal from '../../Components/Modal/Modal'
-import SearchResult from '../../Components/SearchResult/SearchResult'
-import axios from 'axios'
+import Aux from '../../hoc/Aux';
+import ControlButtons from '../../Components/MainBox_Children/ControlButtons/ControlButtons';
+import DropDownMenu from '../../Components/MainBox_Children/DropDownMenu/DropDownMenu';
+import SearchBar from '../../Components/SearchBar/SearchBar';
+import Modal from '../../Components/Modal/Modal';
+import SearchResult from '../../Components/SearchResult/SearchResult';
+import TextField from '../../Containers/MainBox/TextFied/TextField';
+import axios from 'axios';
 class Audio extends Component{
     constructor(props){
         super(props)
@@ -130,6 +131,7 @@ class Audio extends Component{
 
     render(){
         //"/home/fmk/Downloads/LibriSpeech/dev-clean/3081/166546/3081-166546-0010.flac"
+        console.log(this.state.audioUrls[this.state.urlIndex])
         return(
             <Aux>
                 {/* <h3   onClick  = {this.getRandomAudioURL} style = {{color: "IndianRed"}}>Click Here to Generate Random Audio</h3> */}
@@ -163,6 +165,7 @@ class Audio extends Component{
                     
                     
                 />
+                <TextField audio = {this.state.audioUrls[this.state.urlIndex]} />
 
                 
                 
