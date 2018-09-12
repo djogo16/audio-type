@@ -122,10 +122,14 @@ class Audio extends Component{
     }
     OnAudioFinished = ()=>{
         this.setState({isPlayActive:false})
+        this.setState({isPauseActive:true})
     }
     AudioLengthChangedHandler = (event)=>{
         this.setState({audioLength:event.target.innerHTML})
         //this.setState({showAudioLengthMenu:false})
+    }
+    BackDropClickedHandler = ()=>{
+        this.setState({isSearchResultVisible:false})
     }
     
 
@@ -135,7 +139,7 @@ class Audio extends Component{
         return(
             <Aux>
                 {/* <h3   onClick  = {this.getRandomAudioURL} style = {{color: "IndianRed"}}>Click Here to Generate Random Audio</h3> */}
-                <Modal show = {this.state.isSearchResultVisible}>
+                <Modal show = {this.state.isSearchResultVisible} clicked = {this.BackDropClickedHandler}>
                 {this.state.isSearchResultVisible ?
                  <SearchResult book = {this.state.bookTitle} chapters = {this.state.bookChapters} clicked = {this.ChapterClickedHandler}/> : null} 
                 </Modal>

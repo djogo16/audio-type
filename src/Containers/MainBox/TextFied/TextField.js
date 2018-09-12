@@ -27,11 +27,14 @@ class TextField extends  Component{
         axios.get(`http://127.0.0.1:8001/audio/results/?text=${this.state.text}&path=${this.props.audio}`)
             .then(res =>this.setState({correct_answer: res.data.correct_answer,user_answer:res.data.user_answer}))
     }
+    handleBackDropClicked = ()=>{
+        this.setState({showResult:false})
+    }
     render(){
 
         return(
             <Aux>
-                <Modal show = {this.state.showResult}>
+                <Modal show = {this.state.showResult} clicked = {this.handleBackDropClicked}>
                     <div className = {Classes.Result}>
                         <div className = {Classes.ResultChildren}>{ReactHtmlParser(this.state.correct_answer)}</div>
                         <div className = {Classes.ResultChildren}>{ReactHtmlParser(this.state.user_answer)}</div>

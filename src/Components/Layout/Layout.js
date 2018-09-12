@@ -14,13 +14,13 @@ class  Layout extends Component{
     }
     render(){
         return(
-            <Aux>
-        <Toolbar clickedToggle = {this.ToggleButtonHandler}/>
-        <SideDrawer open = {this.state.showSideDrawer} closed= {this.showSidedrawerHandler} />
-        <main className = {Classes.Content}>
-            {this.props.children}
-        </main>
-    </Aux>
+        <Aux>
+            <SideDrawer open = {this.state.showSideDrawer} closed= {this.showSidedrawerHandler} />
+            <Toolbar clickedToggle = {this.ToggleButtonHandler}/>
+            <main className = {Classes.Content}>
+                {this.props.children}
+            </main>
+        </Aux>
         )
     }
 } 
