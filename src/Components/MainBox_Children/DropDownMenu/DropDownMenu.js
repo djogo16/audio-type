@@ -2,7 +2,7 @@ import React from 'react';
 import VolumeSlider from '../Sliders/VolumeSlider'
 import SpeechRateSlider from '../Sliders/SpeechRateSlider'
 import Classes from './DropDownMenu.css'
-import Aux from '../../../hoc/Aux'
+import SettingsMenu from '../DropDownMenu/SettingsMenu/SettingsMenu'
 
 const dropDownMenu = (props)=>{
     let menu = null
@@ -16,7 +16,7 @@ const dropDownMenu = (props)=>{
     : null}
     {props.isSettingsMenuActive ? 
         menu = <div className ={Classes.DropDownMenu}rate>
-                    <p1>Settings Menu Active</p1>
+                    <SettingsMenu audioLength = {props.audioLength} AudioLengthChangedHandler = {props.AudioLengthChangedHandler}/>
                 </div>
         : null}
     return(menu);

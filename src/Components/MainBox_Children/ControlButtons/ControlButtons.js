@@ -17,8 +17,8 @@ const controlButtons = (props) =>(
             <PlayButton onClick = {props.playClicked}/> :
             <PauseButton onClick = {props.pauseClicked}/>}
             {console.log(props.isPauseActive)}
-            <NextButton/>
-            <PreviousButton/>
+            <NextButton onClick ={props.nextClicked}/>
+            <PreviousButton onClick = {props.previousClicked}/>
         </div>
 
 );

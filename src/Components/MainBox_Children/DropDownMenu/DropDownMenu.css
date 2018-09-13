@@ -1,7 +1,7 @@
 .DropDownMenu{
     position: absolute;
-    height: 200px;
-    width : 200px;
+    /* height: 200px; */
+    /* width : 200px; */
     background-color: white;
     box-shadow: 0px 2px 14px #000;
     z-index: 150;

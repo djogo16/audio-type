@@ -5,12 +5,9 @@ import { Icon } from 'react-icons-kit';
 import {previous2} from 'react-icons-kit/icomoon/previous2'
 
 
-const previousButton = ()=>(
+const previousButton = (props)=>(
     <Aux>
-        <button  className={Classes.PreviousButton} onClick = {() => {
-
-
-        }}><Icon icon = {previous2}/></button>
+        <button  className={Classes.PreviousButton} onClick = {props.onClick}><Icon icon = {previous2}/></button>
 
     
     </Aux>

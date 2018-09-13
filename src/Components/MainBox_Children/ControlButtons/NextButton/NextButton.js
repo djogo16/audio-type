@@ -5,12 +5,9 @@ import { Icon } from 'react-icons-kit';
 import {next2} from 'react-icons-kit/icomoon/next2'
 
 
-const nextButton = ()=>(
+const nextButton = (props)=>(
     <Aux>
-        <button  className={Classes.NextButton} onClick = {() => {
-
-
-        }}><Icon icon = {next2}/></button>
+        <button  className={Classes.NextButton} onClick = {props.onClick}><Icon icon = {next2}/></button>
 
     
     </Aux>
