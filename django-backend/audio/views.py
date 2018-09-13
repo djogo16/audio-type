@@ -1,6 +1,10 @@
 # audio/views.py
 from rest_framework import generics
-
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+import re
+from serve_correct import compareText
 from .models import Audio, Book, Chapter
 from .serializers import AudioSerializer, BookSerializer
 
@@ -24,3 +28,16 @@ class SelectedBook(generics.ListCreateAPIView):
 		#book_tile = self.request.query_params.get('title', None)
 		queryset = Book.objects.filter(pk=28054)
 		return queryset
+
+class ServeResult(APIView):
+	renderer_classes = (JSONRenderer, )
+	
+	def get(self,request,format = None):
+		text = request.GET.get('text', '')
+		path = request.GET.get('path', '')
+		audio = re.search(r'audiofiles.*', path).group()
+		queryset = Audio.objects.filter(audio = audio)
+		result_tuple = compareText(text, queryset[0].text)
+		result = {"user_answer":result_tuple[1], "correct_answer": result_tuple[0]}
+		
+		return Response(result)

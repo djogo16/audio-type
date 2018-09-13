@@ -20,8 +20,8 @@ class Chapter(models.Model):
 	book_id = models.ForeignKey(Book, on_delete=models.CASCADE,related_name = 'chapters')
 	title = models.CharField(max_length = 250)
 	
-	class Meta:
-		unique_together = ('book_id', 'title')
+	#class Meta:
+	#	unique_together = ('book_id', 'title')
 	
 	def __str__(self):
 		return (self.title + "|" + str(self.id))
@@ -44,3 +44,26 @@ class Audio(models.Model):
 
 	def __str__(self):
 		return self.name
+
+class Audio_twenty(models.Model):
+	id = models.AutoField(primary_key = True)
+	chapter_id = models.IntegerField()
+	audio = models.FileField(upload_to = 'audio_file_twenty')
+	text = models.TextField()
+	segments = models.CharField(max_length = 250)
+	
+
+class Audio_forty(models.Model):
+	id = models.AutoField(primary_key = True)
+	chapter_id = models.IntegerField()
+	audio = models.FileField(upload_to = 'audio_file_forty')
+	text = models.TextField()
+	segments = models.CharField(max_length = 250)
+
+class Audio_sixty(models.Model):
+	id = models.AutoField(primary_key = True)
+	chapter_id = models.IntegerField()
+	audio = models.FileField(upload_to = 'audio_file_sixty')
+	text = models.TextField()
+	segments = models.CharField(max_length = 250)
+
