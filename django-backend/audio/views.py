@@ -5,22 +5,38 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 import re
 from serve_correct import compareText
-from .models import Audio, Book, Chapter
-from .serializers import AudioSerializer, BookSerializer
+from .models import Audio, Book, Chapter, Audio_twenty, Audio_forty, Audio_sixty
+from .serializers import AudioTwentySerializer, BookSerializer
 
 
 class ListAudio(generics.ListCreateAPIView):
-	serializer_class = AudioSerializer
+	#serializer_class = AudioSerializer
+	length = 0
 	def get_queryset(self):
 		chapter_id = int(self.request.query_params.get('chapter_id', None))
-		chapter = Chapter.objects.get(pk = chapter_id)	
-		queryset = Audio.objects.filter(chapter_id = chapter)
+		length = int(self.request.query_params.get('length', None))
+		chapter = Chapter.objects.get(pk = chapter_id)
+		if(length == 20):	
+			queryset = Audio_twenty.objects.filter(chapter_id = chapter.id)
+			serializer_class = AudioTwentySerializer
+		elif (length == 40):
+			queryset = Audio_forty.objects.filter(chapter_id = chapter.id)
+		else:
+			queryset = Audio_sixty.objects.filter(chapter_id = chapter.id)
 		return queryset
-
+	def get_serializer_class(self):
+		length = int(self.request.query_params.get('length', None))
+		if(length == 20):	
+			serializer_class = AudioTwentySerializer
+		elif (length == 40):
+			serializer_class = AudioFortySerializer
+		else:
+			serializer_class = AudioSixtySerializer
+		return serializer_class
 
 class DetailAudio(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Audio.objects.all()
-	serializer_class = AudioSerializer
+	serializer_class = AudioTwentySerializer
 
 class SelectedBook(generics.ListCreateAPIView):
 	serializer_class = BookSerializer

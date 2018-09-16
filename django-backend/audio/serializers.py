@@ -1,18 +1,36 @@
 # audio/serializers.py
 from rest_framework import serializers
-from .models import Audio, Book
+from .models import Audio, Book, Audio_twenty, Audio_forty, Audio_sixty
 
 
-class AudioSerializer(serializers.ModelSerializer):
+class AudioTwentySerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id',
-            'name',
-	    'length',
-	    'audio_file',
+      	    'audio',
 	    'text',
+            'segments',
         )
-        model = Audio
+        model = Audio_twenty
+
+class AudioFortySerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+	    'audio',
+	    'text',
+            'segments',
+        )
+        model = Audio_forty
+class AudioSixtySerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+	    'audio',
+	    'text',
+            'segments',
+        )
+        model = Audio_sixty
 
 class BookSerializer(serializers.ModelSerializer):
 	chapters = serializers.StringRelatedField(many=True)
