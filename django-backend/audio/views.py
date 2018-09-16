@@ -4,6 +4,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import re
+from random import randint
 from serve_correct import compareText
 from .models import Audio, Book, Chapter, Audio_twenty, Audio_forty, Audio_sixty
 from .serializers import AudioTwentySerializer, BookSerializer
@@ -33,11 +34,20 @@ class ListAudio(generics.ListCreateAPIView):
 		else:
 			serializer_class = AudioSixtySerializer
 		return serializer_class
-
-class DetailAudio(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Audio.objects.all()
-	serializer_class = AudioTwentySerializer
-
+class RandomAudio(APIView):
+	renderer_classes = (JSONRenderer, )
+	
+	def get(self,request, format = None):
+		length = int(request.GET.get('length', 20))
+		if(length == 20):
+			queryset = Audio_twenty.objects.all()
+		elif (length ==40):
+			queryset = Audio_forty.objects.all()
+		else:
+			queryset = Audio_sixty.objects.all()
+		index = randint(0,len(queryset)-1)
+		return Response({"audio" :[str(queryset[index].audio)]})
+	
 class SelectedBook(generics.ListCreateAPIView):
 	serializer_class = BookSerializer
 	def get_queryset(self):
@@ -51,8 +61,8 @@ class ServeResult(APIView):
 	def get(self,request,format = None):
 		text = request.GET.get('text', '')
 		path = request.GET.get('path', '')
-		audio = re.search(r'audiofiles.*', path).group()
-		queryset = Audio.objects.filter(audio = audio)
+		audio = re.search(r'audio_file.*', path).group()
+		queryset = Audio_twenty.objects.filter(audio = audio)
 		result_tuple = compareText(text, queryset[0].text)
 		result = {"user_answer":result_tuple[1], "correct_answer": result_tuple[0]}
 		

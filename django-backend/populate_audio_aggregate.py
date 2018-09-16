@@ -92,9 +92,9 @@ def populate_audio_models(Model,audio_length):
 		
 
 def main():
-	populate_audio_models(Audio_twenty,20)
-	#populate_audio_models(Audio_forty,40)
-	#populate_audio_models(Audio_sixty,60)
+	#populate_audio_models(Audio_twenty,20)
+	populate_audio_models(Audio_forty,40)
+	populate_audio_models(Audio_sixty,60)
 
 
 		
