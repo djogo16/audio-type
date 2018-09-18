@@ -51,10 +51,19 @@ class RandomAudio(APIView):
 class SelectedBook(generics.ListCreateAPIView):
 	serializer_class = BookSerializer
 	def get_queryset(self):
-		#book_tile = self.request.query_params.get('title', None)
-		queryset = Book.objects.filter(pk=28054)
+		path = self.request.build_absolute_uri()
+		book_title = self.request.query_params.get('title', None)
+		if(";" not in path):
+			queryset = Book.objects.filter(title = book_title)
+		else:
+			queryset = Book.objects.filter(title__contains = book_title)
+		
+		print(path)
 		return queryset
-
+class ListBooks(generics.ListCreateAPIView):
+	renderer_classes = (JSONRenderer, )
+	def get(self,request,format = None):
+		return Response(Book.objects.values('title'))
 class ServeResult(APIView):
 	renderer_classes = (JSONRenderer, )
 	
@@ -64,6 +73,12 @@ class ServeResult(APIView):
 		audio = re.search(r'audio_file.*', path).group()
 		queryset = Audio_twenty.objects.filter(audio = audio)
 		result_tuple = compareText(text, queryset[0].text)
-		result = {"user_answer":result_tuple[1], "correct_answer": result_tuple[0]}
+		result = {
+			"user_answer":result_tuple[1], 
+			"correct_answer": result_tuple[0], 
+			"misspelled_words_count" : result_tuple[2],
+			"missed_words_count" : result_tuple[3],
+			"correct_words_count" : result_tuple[4]
+			}
 		
 		return Response(result)

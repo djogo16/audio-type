@@ -18,6 +18,10 @@ def compareText(user_answer, correct_answer):
 	result = list(result)
 	user_current_index = 0
 	correct_current_index = 0
+	misspelled_words_count = 0
+	correct_words_count = 0
+	missed_words_count = 0
+	del result[-1]
 	for word in result:
 		#print(word[0])
 		#print(word)
@@ -30,16 +34,19 @@ def compareText(user_answer, correct_answer):
 			user_current_index = index
 			user_answer_list.insert(index,"<span>")
 			user_answer_list.insert(index + 2,"</span>")
+			misspelled_words_count = misspelled_words_count +1
 		elif (word[0] == "-"):
 			word_list = word.split(" ")
 			index = correct_answer_list.index(word_list[1],correct_current_index)
 			correct_current_index = index
 			correct_answer_list.insert(index,"<section>")
 			correct_answer_list.insert(index + 2,"</section>")
-			print(correct_answer_list)
+			missed_words_count = missed_words_count +1
+		elif (word[0] == " "):
+			correct_words_count = correct_words_count + 1
 		else:
 			pass
-	return (" ".join(correct_answer_list), " ".join(user_answer_list))
+	return (" ".join(correct_answer_list), " ".join(user_answer_list),misspelled_words_count, missed_words_count, correct_words_count)
 	
 			
 					
