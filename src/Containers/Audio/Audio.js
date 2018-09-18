@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Sound from 'react-sound';
-import URL from '../../assets/Audios/3081-166546-0047.flac';
+//import URL from '../../assets/Audios/3081-166546-0047.flac';
 import Aux from '../../hoc/Aux';
 import ControlButtons from '../../Components/MainBox_Children/ControlButtons/ControlButtons';
 import DropDownMenu from '../../Components/MainBox_Children/DropDownMenu/DropDownMenu';
@@ -28,35 +28,35 @@ class Audio extends Component{
             bookTitle: "",
             bookChapters:"",
             searchInputFieldValue : "",
-            audioLength : "10 seconds" //props to use in SettingsMenu.js
+            audioLength : "20 seconds" //props to use in SettingsMenu.js
             //showAudioLengthMenu: false, //props to use in SettingsMenu.js
         }
     }
     getRandomAudioURL = ()=> {
-        axios.get("http://127.0.0.1:8001/audio/")
-        .then(response =>{
-            axios.get("http://127.0.0.1:8001/audio/"+Math.floor(Math.random() * response.data.length))
-            .then(response =>{
-                this.setState({audioUrl:response.data.audio})
-                //console.log(this.state.url);
-            });
+        axios.get("http://127.0.0.1:8000/audio/length?length =" + "&length=" + this.state.audioLength.split(" ")[0])
+        .then(response =>{ 
+            this.setState({audioUrls: ["http://127.0.0.1:8000/media/" + response.data.audio], urlIndex:0, isPlayActive:true})
+            console.log(this.state.audioUrls)
+            //console.log(response.data.audio)
+            
 
         });
             
         
     }
-    SearchAudioHandler = (event)=>{
+    SearchAudioHandler = (event,value)=>{
         this.setState({isSearchResultVisible:true})
         event.preventDefault()
-        axios.get("http://127.0.0.1:8001/audio/book?title=" + this.state.searchInputFieldValue.replace(/ /g, "+") + "&length=" + this.state.audioLength.split(" ")[0])
+        axios.get("http://127.0.0.1:8000/audio/book?title= " + value.replace(/ /g, "+"))
          .then(res=>{
              this.setState({searchResult:res.data['0'],bookTitle:res.data['0']['title'],bookChapters:res.data['0']['chapters']})
             //console.log(this.state.searchResult)
-            //console.log(res.data)
-            //console.log(res.data['0']['title'])
+            console.log(res.data)
+            console.log(res.data['0']['title'])
             console.log(this.state.isPlayActive)
-            console.log(this.state.url);
+            //console.log(this.state.url);
          })
+         .catch(error => console.log(error))
     }
     SearchInputFieldChangeHandler = (event) =>{
         //this.setState((prevState,newsSate)=>{searchInputFieldValue: document.getElementById("searchBook").value})
@@ -64,18 +64,20 @@ class Audio extends Component{
         console.log(this.state.searchInputFieldValue)
     }
     ChapterClickedHandler = (event)=>{
+        this.setState({audioUrls:[],texts:[]})
         this.setState({isSearchResultVisible:false,isPlayActive:true})
-        axios.get("http://127.0.0.1:8001/audio/chapter?chapter_id=" + event.target.id)
+        axios.get("http://127.0.0.1:8000/audio/chapter?chapter_id=" + event.target.id + "&length=" + this.state.audioLength.split(" ")[0]) 
         .then(res =>{
             for (let i in res.data){
                 this.setState(previousState =>(
                     {audioUrls:previousState.audioUrls.concat(res.data[i]["audio"]),
                     texts: previousState.texts.concat(res.data[i]["text"])
                 }))
-                //console.log(this.state.texts)
-                //console.log((res.data[i]))
+                console.log(this.state.audioUrls)
+                console.log(res.data[i])
             }
         })
+        .catch(error => console.log(error))
     }
     
 

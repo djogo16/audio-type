@@ -23,7 +23,8 @@ class SearchResult extends Component{
                         {chapters.map(c =>{
                             c = c.replace(/^[^.]+\./, "")
                             let c_array = c.split("|")
-                            return <li id = {c_array[1]}onClick = {this.props.clicked} key={c_array[1]}>{c_array[0]}</li>
+                            console.log(typeof(c_array[1]))
+                            return <li id = {c_array[1]} onClick = {this.props.clicked} key={c_array[1]}>{c_array[0]}</li>
                             })
                         }
 

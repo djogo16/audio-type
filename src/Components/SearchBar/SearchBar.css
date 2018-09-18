@@ -12,7 +12,7 @@
 
 }
 .SearchBar form{
-    width:50%;
+    width:100%;
     height: 50px;
     display: flex;
     justify-content: space-between;
@@ -61,10 +61,36 @@ input:-webkit-autofill:active {
     border:none;
     border-radius:8px;
     outline: none;
+    height: 50px;
     /* height: 100%; */
 }
 .SearchBar button:hover{
     background-color: indianred;
-    border-bottom: 4px solid #ff4488;
+    /* border-bottom: 4px solid #ff4488; */
     color: white
 }
+.Wrapper{
+    display:block;
+    width: 50%;
+    position: relative;
+    
+}
+.Wrapper section{
+    position: absolute;
+    z-index: 150;
+    width:100%;
+    background-color: white;
+    text-align: left;
+}
+.Wrapper p{
+    /* background-color: white; */
+    /* text-align: left; */
+    border-bottom: 2px, solid, black;
+    box-sizing: border-box;
+    
+}
+.Wrapper p:hover{
+    cursor: pointer;
+    background-color: lightgray;
+}
+
