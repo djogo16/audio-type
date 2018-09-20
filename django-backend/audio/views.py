@@ -46,7 +46,7 @@ class RandomAudio(APIView):
 		else:
 			queryset = Audio_sixty.objects.all()
 		index = randint(0,len(queryset)-1)
-		return Response({"audio" :[str(queryset[index].audio)]})
+		return Response({"audio" :[str(queryset[index].audio)], "segments" :queryset[index].segments})
 	
 class SelectedBook(generics.ListCreateAPIView):
 	serializer_class = BookSerializer
