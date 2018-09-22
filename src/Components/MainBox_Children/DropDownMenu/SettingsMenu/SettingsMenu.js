@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Classes from './SettingsMenu.css'
 import Aux from '../../../../hoc/Aux'
 import Switch from "react-switch"
+import BackDrop from "../../../BackDrop/BackDrop"
 
 class SettingsMenu extends Component{
     constructor(props){
@@ -36,6 +37,8 @@ class SettingsMenu extends Component{
     }
     render(){
         return(
+            <Aux>
+                {/* <BackDrop show = {true}/> */}
                 <div className = {Classes.SettingsMenu}>
                     <span>
                         <p>Repeat Sentences</p>
@@ -66,6 +69,7 @@ class SettingsMenu extends Component{
                         <Switch checked = {this.state.autoPlayChecked} onChange = {this.AutoPlayChangedHandler} checkedIcon={false} uncheckedIcon = {false} onColor = '#A52A2A' activeBoxShadow ='0 0 2px 3px #A52A2A'/>
                     </span>
                 </div>
+            </Aux>
         )
     
         

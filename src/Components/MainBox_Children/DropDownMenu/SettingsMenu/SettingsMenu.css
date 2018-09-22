@@ -5,6 +5,7 @@
     /* height:500px; */
     text-align: left;
     padding:10px;
+    z-index: 150;
 }
 .SettingsMenu p{
   padding-left:0%;

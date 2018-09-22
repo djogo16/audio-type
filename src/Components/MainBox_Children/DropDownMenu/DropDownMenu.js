@@ -3,19 +3,22 @@ import VolumeSlider from '../Sliders/VolumeSlider'
 import SpeechRateSlider from '../Sliders/SpeechRateSlider'
 import Classes from './DropDownMenu.css'
 import SettingsMenu from '../DropDownMenu/SettingsMenu/SettingsMenu'
+import BackDrop from "../../BackDrop/BackDrop"
 
 const dropDownMenu = (props)=>{
     let menu = null
     {props.isVolumeMenuActive ? 
     menu = <div style={{width:"100%"}}>
-            <div className ={Classes.DropDownMenu}rate>
+            <BackDrop show ={true} clicked = {props.VolumeMenuBackDropClicked} transparent/>
+            <div className ={Classes.DropDownMenu}>
                 <VolumeSlider volume = {props.volume} changed = {props.VolumeChangedHandler}/> 
                 <SpeechRateSlider speechRate = {props.speechRate} changed = {props.SpeechRateChangedHandler}/>
             </div>
             </div>
     : null}
     {props.isSettingsMenuActive ? 
-        menu = <div className ={Classes.DropDownMenu}rate>
+        menu = <div className ={Classes.DropDownMenu}>
+                    <BackDrop show ={true} clicked = {props.SettingsMenuBackDropClicked} transparent/>
                     <SettingsMenu audioLength = {props.audioLength} AudioLengthChangedHandler = {props.AudioLengthChangedHandler}/>
                 </div>
         : null}

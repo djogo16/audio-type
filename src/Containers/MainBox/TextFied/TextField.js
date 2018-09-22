@@ -24,12 +24,10 @@ class TextField extends  Component{
         this.setState({text:event.target.value});
     }
     handleSubmit(event){
-        //this.setState({text:'Submitted',isSubmitted:true});
         this.setState({showResult:true})
         event.preventDefault();
         axios.get(`http://127.0.0.1:8000/audio/results/?text=${this.state.text.replace(/;/g, '')}&path=${this.props.audio}`)
             .then(res =>{
-                console.log(res.data)
                 this.setState({
                     correct_answer: res.data.correct_answer,
                     user_answer:res.data.user_answer,

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Sound from 'react-sound';
-//import URL from '../../assets/Audios/3081-166546-0047.flac';
 import Aux from '../../hoc/Aux';
 import ControlButtons from '../../Components/MainBox_Children/ControlButtons/ControlButtons';
 import DropDownMenu from '../../Components/MainBox_Children/DropDownMenu/DropDownMenu';
@@ -24,57 +23,64 @@ class Audio extends Component{
             audioUrls: [],
             urlIndex: 0,
             texts: [],
+            audioSegmentsStartTime : [],
+            audioPosition: 0,
             isSearchResultVisible:false,
             bookTitle: "",
             bookChapters:"",
+            bookFound: true,
             searchInputFieldValue : "",
-            audioLength : "20 seconds" //props to use in SettingsMenu.js
-            //showAudioLengthMenu: false, //props to use in SettingsMenu.js
+            audioLength : "20 seconds", //props to use in SettingsMenu.js
+            audioRepeatCount : 0
+            
         }
     }
-    getRandomAudioURL = ()=> {
-        axios.get("http://127.0.0.1:8000/audio/length?length =" + "&length=" + this.state.audioLength.split(" ")[0])
+    GetRandomAudioURL = ()=> {
+        this.PlayClickedHandler()
+        axios.get("https://audiotypeapi.herokuapp.com/audio/length?length =" + "&length=" + this.state.audioLength.split(" ")[0])
         .then(response =>{ 
-            this.setState({audioUrls: ["http://127.0.0.1:8000/media/" + response.data.audio], urlIndex:0, isPlayActive:true})
-            console.log(this.state.audioUrls)
-            //console.log(response.data.audio)
-            
+            this.setState({
+                audioUrls: ["https://audiotype-dumpdata.s3.amazonaws.com/media/" + response.data.audio], 
+                urlIndex:0, isPlayActive:true,
+                audioSegmentsStartTime: response.data.segments.split(" ")
+            })
 
         });
             
         
     }
     SearchAudioHandler = (event,value)=>{
+        if(typeof(value)=== 'undefined'){
+            //this.setState({bookFound:false})
+            //console.log(this.state.bookFound)
+            alert("Oops Book not Found")
+            return
+        }
         this.setState({isSearchResultVisible:true})
         event.preventDefault()
-        axios.get("http://127.0.0.1:8000/audio/book?title= " + value.replace(/ /g, "+"))
+        axios.get("https://audiotypeapi.herokuapp.com/audio/book?title= " + value.replace(/ /g, "+"))
          .then(res=>{
+
              this.setState({searchResult:res.data['0'],bookTitle:res.data['0']['title'],bookChapters:res.data['0']['chapters']})
-            //console.log(this.state.searchResult)
-            console.log(res.data)
-            console.log(res.data['0']['title'])
-            console.log(this.state.isPlayActive)
-            //console.log(this.state.url);
          })
          .catch(error => console.log(error))
     }
     SearchInputFieldChangeHandler = (event) =>{
-        //this.setState((prevState,newsSate)=>{searchInputFieldValue: document.getElementById("searchBook").value})
         this.setState({searchInputFieldValue:event.target.value})
         console.log(this.state.searchInputFieldValue)
     }
     ChapterClickedHandler = (event)=>{
-        this.setState({audioUrls:[],texts:[]})
-        this.setState({isSearchResultVisible:false,isPlayActive:true})
-        axios.get("http://127.0.0.1:8000/audio/chapter?chapter_id=" + event.target.id + "&length=" + this.state.audioLength.split(" ")[0]) 
+        this.setState({audioUrls:[],texts:[],audioSegmentsStartTime: []})
+        this.setState({isSearchResultVisible:false})
+        this.PlayClickedHandler()
+        axios.get("https://audiotypeapi.herokuapp.com/audio/chapter?chapter_id=" + event.target.id + "&length=" + this.state.audioLength.split(" ")[0]) 
         .then(res =>{
             for (let i in res.data){
-                this.setState(previousState =>(
-                    {audioUrls:previousState.audioUrls.concat(res.data[i]["audio"]),
-                    texts: previousState.texts.concat(res.data[i]["text"])
+                this.setState(previousState =>({
+                    audioUrls:previousState.audioUrls.concat(res.data[i]["audio"]),
+                    texts: previousState.texts.concat(res.data[i]["text"]),
+                    audioSegmentsStartTime: previousState.audioSegmentsStartTime.concat([res.data[i]["segments"].split(" ")])
                 }))
-                console.log(this.state.audioUrls)
-                console.log(res.data[i])
             }
         })
         .catch(error => console.log(error))
@@ -94,12 +100,9 @@ class Audio extends Component{
     PreviousClickedHandler = ()=>{
         this.state.urlIndex > 0 ? this.setState(previousState=>({urlIndex:previousState.urlIndex - 1})) :null
         
-        console.log(this.state.urlIndex)
     }
     NextClickedHandler = ()=>{
         this.state.urlIndex <this.state.audioUrls.length ? this.setState(previousState=>({urlIndex:previousState.urlIndex + 1})) :null
-        console.log(this.state.urlIndex)
-        console.log(this.state.audioUrls.length)
     }
     
     /*RepeatClickedHandler = ()=>{
@@ -126,9 +129,10 @@ class Audio extends Component{
         this.setState({isPlayActive:false})
         this.setState({isPauseActive:true})
     }
+    
     AudioLengthChangedHandler = (event)=>{
         this.setState({audioLength:event.target.innerHTML})
-        //this.setState({showAudioLengthMenu:false})
+        
     }
     BackDropClickedHandler = ()=>{
         this.setState({isSearchResultVisible:false})
@@ -136,16 +140,14 @@ class Audio extends Component{
     
 
     render(){
-        //"/home/fmk/Downloads/LibriSpeech/dev-clean/3081/166546/3081-166546-0010.flac"
-        console.log(this.state.audioUrls[this.state.urlIndex])
+        
         return(
             <Aux>
-                {/* <h3   onClick  = {this.getRandomAudioURL} style = {{color: "IndianRed"}}>Click Here to Generate Random Audio</h3> */}
                 <Modal show = {this.state.isSearchResultVisible} clicked = {this.BackDropClickedHandler}>
                 {this.state.isSearchResultVisible ?
-                 <SearchResult book = {this.state.bookTitle} chapters = {this.state.bookChapters} clicked = {this.ChapterClickedHandler}/> : null} 
+                 <SearchResult isResultFound = {this.state.bookFound} book = {this.state.bookTitle} chapters = {this.state.bookChapters} clicked = {this.ChapterClickedHandler}/> : null} 
                 </Modal>
-                <SearchBar onSubmit = {this.SearchAudioHandler} onChange ={this.SearchInputFieldChangeHandler} randomButtonCliked  = {this.getRandomAudioURL} book = {this.state.bookTitle} chapters = {this.state.bookChapters}/>
+                <SearchBar onSubmit = {this.SearchAudioHandler} onChange ={this.SearchInputFieldChangeHandler} randomButtonCliked  = {this.GetRandomAudioURL} book = {this.state.bookTitle} chapters = {this.state.bookChapters}/>
                 {this.state.isPlayActive?
                 <Sound url = {this.state.audioUrls[this.state.urlIndex]} playStatus = {Sound.status.PLAYING} onFinishedPlaying  = {this.OnAudioFinished} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>:
                 <Sound url = {this.state.audioUrls[this.state.urlIndex]} playStatus = {Sound.status.PAUSED} onFinishedPlaying  = {this.OnAudioFinished} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>}
@@ -168,6 +170,8 @@ class Audio extends Component{
                     speechRate = {this.state.speechRate}
                     audioLength = {this.state.audioLength}
                     AudioLengthChangedHandler = {this.AudioLengthChangedHandler}
+                    SettingsMenuBackDropClicked = {this.SettingsClickedHandler}
+                    VolumeMenuBackDropClicked = {this.VolumeClickedHandler}
                     
                     
                 />

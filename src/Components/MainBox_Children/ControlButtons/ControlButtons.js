@@ -12,13 +12,14 @@ const controlButtons = (props) =>(
         <div className ={Classes.ControlButtons}>
             <RepeatButton/>
             <SoundButton onClick = {props.volumeClicked}/>
-            <SettingsButton onClick = {props.settingsClicked}/>
+            <PreviousButton onClick = {props.previousClicked}/>
             {props.isPauseActive ?
             <PlayButton onClick = {props.playClicked}/> :
             <PauseButton onClick = {props.pauseClicked}/>}
             {console.log(props.isPauseActive)}
             <NextButton onClick ={props.nextClicked}/>
-            <PreviousButton onClick = {props.previousClicked}/>
+            <SettingsButton onClick = {props.settingsClicked}/>
+            
         </div>
 
 );

@@ -7,9 +7,9 @@ const toolbar  = (props)=>(
     <header className = {classes.Toolbar}>
         <ToggleButton clicked = {props.clickedToggle}/>
         <Logo/>
-        <nav className={classes.DesktopOnly}>
-            <NavigationItems/>
-        </nav>
+        {/* <nav className={classes.DesktopOnly}> */}
+            {/* <NavigationItems/> */}
+        {/* </nav> */}
     </header>
 
 );

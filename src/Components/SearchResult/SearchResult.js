@@ -14,7 +14,8 @@ class SearchResult extends Component{
             
         }
         //console.log(chapters)
-        let output = 
+        let output = null;
+        this.props.isResultFound ? output =
             <Aux >
                 <div className = {Classes.SearchResult}>
                     <h3>{this.props.book}</h3>
@@ -32,7 +33,7 @@ class SearchResult extends Component{
                     </div>
                 
             </Aux>
-           
+           : <p>Oops Book not Found</p>
 
         
 
