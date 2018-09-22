@@ -36,6 +36,9 @@ class Audio extends Component{
         }
     }
     GetRandomAudioURL = ()=> {
+        let config = {
+            headers: {'Access-Control-Allow-Origin': '*'}
+        };
         this.PlayClickedHandler()
         axios.get("https://audiotypeapi.herokuapp.com/audio/length?length =" + "&length=" + this.state.audioLength.split(" ")[0])
         .then(response =>{ 
@@ -58,6 +61,10 @@ class Audio extends Component{
         }
         this.setState({isSearchResultVisible:true})
         event.preventDefault()
+        let config = {
+            headers: {'Access-Control-Allow-Origin': '*'}
+        };
+        
         axios.get("https://audiotypeapi.herokuapp.com/audio/book?title= " + value.replace(/ /g, "+"))
          .then(res=>{
 
@@ -73,6 +80,10 @@ class Audio extends Component{
         this.setState({audioUrls:[],texts:[],audioSegmentsStartTime: []})
         this.setState({isSearchResultVisible:false})
         this.PlayClickedHandler()
+        let config = {
+            headers: {'Access-Control-Allow-Origin': '*'}
+        };
+        
         axios.get("https://audiotypeapi.herokuapp.com/audio/chapter?chapter_id=" + event.target.id + "&length=" + this.state.audioLength.split(" ")[0]) 
         .then(res =>{
             for (let i in res.data){
