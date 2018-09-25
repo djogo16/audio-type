@@ -29,8 +29,19 @@
     outline: none;
     height: 50px;
     width: 20%;
-      }
-  .Button:hover {
+    }
+    .Button2 {
+        color: white;
+        background-color: blue;
+        box-shadow: none;
+        border:none;
+        border-radius:8px;
+        outline: none;
+        height: 50px;
+        width: 20%; 
+        
+    }
+  .Button:hover, .Button2:hover {
     background-color: indianred;
     /* border-bottom: 4px solid #ff4488; */
     color: white

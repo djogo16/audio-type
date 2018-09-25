@@ -6,7 +6,7 @@
     align-items: center;
     
 }
-.NavigationItem a{
+.NavigationItem div{
     color: white;
     background-color: brown;
     text-decoration: none;
@@ -15,14 +15,15 @@
     border-bottom: 4px solid transparent;
     box-sizing: border-box;
     display: block;
-    width:100;
+    width:100; 
 }
-.NavigationItem a:hover,
-.NavigationItem a:active,
-.NavigationItem a.active{
+.NavigationItem div:hover,
+.NavigationItem div:active,
+.NavigationItem div.active{
     background-color: indianred;
-    border-bottom: 4px solid #ff4488;
-    color: white
+    /* border-bottom: 4px solid #ff4488; */
+    color: white;
+    cursor: default;
 }
 @media (max-width: 500px){
     .NavigationItem{
