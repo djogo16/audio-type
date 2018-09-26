@@ -4,12 +4,11 @@ import Aux from '../../../hoc/Aux.js';
 import Modal from "../../../Components/Modal/Modal";
 import axios from 'axios';
 import ReactHtmlParser from 'react-html-parser';
-import {connect} from 'react-redux';
-import * as actionTypes from '../../../Actions/Auth';
+import ReactStars from 'react-stars';
+
 class TextField extends  Component{
     constructor(props){
         super(props);
-        //this.props.loadUser()
         this.state = {
             isSubmitted: false,
             text: '' ,
@@ -18,8 +17,10 @@ class TextField extends  Component{
             correct_words_count: 0,
             missed_words_count: 0,
             misspelled_words_count : 0,
-            _words_count: 0,
-            showResult : false
+            grade : 0,
+            stars : 0,
+            showResult : false,
+            saveErrorMessage : ""
         };
         this.handleChangedText = this.handleChangedText.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,32 +31,36 @@ class TextField extends  Component{
     saveScore = ()=>{
         
         let token = localStorage.getItem(['token']);
-        console.log(`Token ${token}`)
-
+        if (token === null){
+            this.setState({saveErrorMessage: "You must be logged in to save your scores"})
+        }
+        else{
+            axios({
+                method: 'get',
+                url: "http://127.0.0.1:8000/audio/auth/user/",
+                headers:{"authorization" : `Token ${token}` , "content-type": "application/json"} 
+            }).then(res => {
+                let data = {
+                    'correct_answer' : this.state.correct_answer,
+                    'user_answer' : this.state.user_answer,
+                    'correct_count' : this.state.correct_words_count,
+                    'missed_count' : this.state.missed_words_count,
+                    'misspelled_count' : this.state.misspelled_words_count,
+                    'username' : res.data["username"],
+                    'stars' : this.state.stars,
+                    'book_title' : this.props.bookTitle
+                }
+                axios.post("http://127.0.0.1:8000/audio/save/",data);
+    
+                }).catch(error=>console.log(error))
+            this.handleBackDropClicked();
+        }
         
-        //axios.post("http://127.0.0.1:8000/audio/save/",data)
-        axios({
-            method: 'get',
-            url: "http://127.0.0.1:8000/audio/auth/user/",
-            headers:{"authorization" : `Token ${token}` , "content-type": "application/json"} 
-        }).then(res => {
-            console.log(res.data["username"]);
-            let data = {
-                'correct_answer' : this.state.correct_answer,
-                'user_answer' : this.state.user_answer,
-                'correct_count' : this.state.correct_words_count,
-                'missed_count' : this.state.missed_words_count,
-                'misspelled_count' : this.state.misspelled_words_count,
-                'username' : res.data["username"]
-            }
-            axios.post("http://127.0.0.1:8000/audio/save/",data)
-
-            })
         
-        this.handleBackDropClicked()
     }
     handleSubmit(event){
-        this.setState({showResult:true})
+        
+        
         event.preventDefault();
         axios.get(`http://127.0.0.1:8000/audio/results/?text=${this.state.text.replace(/;/g, '')}&path=${this.props.audio}`)
             .then(res =>{
@@ -66,7 +71,29 @@ class TextField extends  Component{
                     missed_words_count : res.data.missed_words_count,
                     misspelled_words_count: res.data.misspelled_words_count
                 })
-            })
+            }).then(()=>{
+            let grade = this.state.correct_words_count / (this.state.missed_words_count+this.state.misspelled_words_count + this.state.correct_words_count)
+            this.setState({showResult:true, grade:grade})
+            let percentage = this.state.grade * 100;
+            if (percentage ===0){
+                this.setState({stars:0});
+            }
+            else if (percentage <= 10){
+                this.setState({stars:1});
+            }
+            else if (percentage > 10 && percentage <= 40){
+                this.setState({stars:2});
+            }
+            else if  (percentage > 40 && percentage <= 60){
+                this.setState({stars:3});
+            }
+            else if (percentage > 60 && percentage <= 80){
+                this.setState({stars:4});
+            }
+            else {this.setState({stars:5})}
+            this.setState({text:""}) 
+        })
+        
     }
     handleBackDropClicked = ()=>{
         this.setState({showResult:false})
@@ -85,10 +112,13 @@ class TextField extends  Component{
                     <div className = {Classes.ResultChildren}>{ReactHtmlParser(this.state.correct_answer)}</div>
                     <div className = {Classes.ResultChildren}>{ReactHtmlParser(this.state.user_answer)}</div>
                 </div>
+                <div style={{position:"relative",left:"40%"}}><ReactStars value = {this.state.stars} count = {5} color2={'#ffd700'} edit = {false} size = {30}/></div>
                 <div style = {{display:'flex', justifyContent:'center'}}>
-                    <p style = {{color: 'blue',padding:'5px'}} onClick = {this.saveScore}>Save</p>
-                    <p style = {{color: 'red', padding:'5px'}} onClick = {this.handleBackDropClicked}>Cancel</p>
+                    <p style = {{color: 'blue',padding:'5px',cursor:'pointer'}} onClick = {this.saveScore}>Save</p>
+                    <p style = {{color: 'red', padding:'5px',cursor:'pointer'}} onClick = {this.handleBackDropClicked}>Cancel</p>
                 </div>
+                <p style = {{color:"red"}}>{this.state.saveErrorMessage}</p>
+                
             </Aux>  
                 : result = <div><p>Play Audio First!</p></div>
 
@@ -98,7 +128,7 @@ class TextField extends  Component{
                     {result}
                 </Modal>
                 <form onSubmit = {this.handleSubmit} style={{height :'100%',position:'relative',zIndex:'100'}}>
-                    <textarea spellCheck = 'false' className = {Classes.TextField} onChange = {this.handleChangedText} name="message" rows="10" cols="20" value = {this.state.text}></textarea>
+                    <textarea id = 'textarea'spellCheck = 'false' className = {Classes.TextField} onChange = {this.handleChangedText} name="message" rows="10" cols="20" value = {this.state.text}></textarea>
                     <br/>
                     <input className = {Classes.Button} value ="Submit" type="submit"/>
                 </form>
@@ -110,14 +140,5 @@ class TextField extends  Component{
     
 
 }
-const mapStateToProps = state => {
-    return { user : state.user}
-}
-//const mapDispatchToProps = dispatch => {
-    //return {
-      //loadUser: () => dispatch({type : actionTypes.USER_LOADED}),
-      //loadUser: () => dispatch(actionTypes.loadUser()),
-    //};
-  //}
 
-export default connect(mapStateToProps)(TextField);
+export default TextField;

@@ -1,0 +1,40 @@
+.Wrapper{
+    overflow-y: scroll;
+    height: 600px;
+}
+.Wrapper span{
+    pointer-events: none;
+}
+ 
+.Wrapper div:hover{
+    background-color: bisque;
+    cursor: pointer;
+}
+
+/* width */
+.Wrapper::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+.Wrapper::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+}
+ 
+/* Handle */
+.Wrapper::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+.Wrapper::-webkit-scrollbar-thumb:hover {
+    background:grey 
+}
+
+.Scores{
+    border: 2px solid grey;
+    margin: 10px;
+    text-overflow: ellipsis;
+}

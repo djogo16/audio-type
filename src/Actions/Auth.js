@@ -2,6 +2,8 @@ export const SET_SHOW_LOGIN = "SET_SHOW_LOGIN";
 export const SET_SHOW_REGISTER = "SET_SHOW_REGISTER";
 export const HIDE_AUTH_COMPONENT = "HIDE_AUTH_COMPONENT";
 export const SHOW_AUTH_COMPONENT = "SHOW_AUTH_COMPONENT";
+export const SHOW_SIDE_DRAWER = "SHOW_SIDE_DRAWER";
+export const HIDE_SIDE_DRAWER = "HIDE_SIDE_DRAWER";
 export const LOGOUT_SUCCESSFUL = "LOGOUT_SUCCESSFUL"
 export const loadUser = () => {
     return (dispatch, getState) => {
@@ -38,7 +40,7 @@ export const loadUser = () => {
         })
     }
   }
-  export const login = (username, password) => {
+export const login = (username, password) => {
     return (dispatch, getState) => {
       let headers = {"Content-Type": "application/json"};
        let body = JSON.stringify({username, password});
@@ -68,7 +70,7 @@ export const loadUser = () => {
         })
     }
   }
-  export const register = (username, password) => {
+export const register = (username, password) => {
     return (dispatch, getState) => {
       let headers = {"Content-Type": "application/json"};
       let body = JSON.stringify({username, password});

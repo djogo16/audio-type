@@ -16,7 +16,6 @@ const controlButtons = (props) =>(
             {props.isPauseActive ?
             <PlayButton onClick = {props.playClicked}/> :
             <PauseButton onClick = {props.pauseClicked}/>}
-            {console.log(props.isPauseActive)}
             <NextButton onClick ={props.nextClicked}/>
             <SettingsButton onClick = {props.settingsClicked}/>
             

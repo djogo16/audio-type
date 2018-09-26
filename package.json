@@ -45,6 +45,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-sound": "^1.2.0",
+    "react-stars": "^2.2.5",
     "react-switch": "^3.0.4",
     "react-toggle-button": "^2.2.0",
     "redux-thunk": "^2.3.0",

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import Modal from '../../Components/Modal/Modal'
+import Modal from '../../Components/Modal/Modal';
 import {connect} from "react-redux";
-import * as actionTypes from '../../Actions/Auth'
+import * as actionTypes from '../../Actions/Auth';
+import Classes from './Auth.css';
 
 class Login extends Component {
     constructor(props){
@@ -9,34 +10,25 @@ class Login extends Component {
         this.state = {
             username: "",
             password: "",
-           // showLoginComponent: true,
-           // showAuthContainer: true,
         }
 
     }
     onSubmit = e => {
         e.preventDefault();
-        //console.error("Not implemented!!1");
         this.props.login(this.state.username, this.state.password);
         if (this.props.isAuthenticated) {
           this.props.onBackDropClicked()
         }
     }
     LoginClickedHandler =()=>{
-        //this.setState({showLoginComponent:true})
+        
         this.props.login(this.state.username,this.state.password)
     }
-    //HideAuthContainer =() =>{
-      //this.setState({showAuthContainer:false})
-    //}
-    
       render() {
-        
         return (
           <Modal show ={this.props.showLoginComponent && this.props.showAuthContainer} clicked ={this.props.onBackDropClicked} >
-            <form onSubmit={this.onSubmit}>
-              <fieldset>
-                <legend>Login</legend>
+            <form className ={Classes.Auth} onSubmit={this.onSubmit}>
+              
                 <p>
                   <label htmlFor="username">Username</label>
                   <input
@@ -52,14 +44,16 @@ class Login extends Component {
                 <p>
                   <button type="submit" onClick = {this.LoginClickedHandler}>Login</button>
                 </p>
-      
-                </fieldset>
+                {
+                  this.props.errors.length !== 0 ? <p style={{color:"red"}} >{this.props.errors[0]["message"][0]}</p> : null
+                }
+                
+                <p>
+                  Don't have an account? <span onClick = {this.props.onRegisterClicked}>Register</span>
+                </p>
                 
             </form> 
-            <p>
-                  Don't have an account? 
-                </p>
-                <button onClick = {this.props.onRegisterClicked}>Register</button>
+            
           </Modal>
         
         )

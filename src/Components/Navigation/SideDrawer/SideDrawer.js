@@ -3,6 +3,7 @@ import NavigationItems from '../NavigationItems/NavigationItems.js'
 import classes from './SideDrawer.css';
 import Aux from '../../../hoc/Aux.js'
 import BackDrop from '../../BackDrop/BackDrop';
+import Score from '../../Scores/Score';
 
 
 const sideDrawer = (props) =>{
@@ -16,7 +17,7 @@ const sideDrawer = (props) =>{
             <div className = {attachedClasses.join(' ')}>
     
                 
-                <NavigationItems/>
+            <Score data = {props.data} scoreClickedHandler = {props.scoreClickedHandler} />
             </div>
         </Aux>
     );

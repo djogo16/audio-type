@@ -31,7 +31,8 @@ class Audio extends Component{
             bookFound: true,
             searchInputFieldValue : "",
             audioLength : "20 seconds", //props to use in SettingsMenu.js
-            audioRepeatCount : 0
+            audioRepeatCount : 0,
+            autoPlayChecked : false
             
         }
     }
@@ -131,14 +132,29 @@ class Audio extends Component{
         this.state.isSettingsMenuActive? this.setState({isSettingsMenuActive:false}) :this.setState({isSettingsMenuActive:true})
     }
     SpeechRateChangedHandler = (event) =>{
-        this.setState({ speechRate: event.target.value })
+       // this.setState({ speechRate: event.target.value })
+       let value = 0
+       //let value = event.target.innerHTML.slice(0,-1);
+       //this.setState({speechRate:parseFloat(value)})
+       event.type === 'change' ? value = event.target.value : value = event.target.innerHTML.slice(0,-1);
+       this.setState({speechRate:parseFloat(value)});
+
     }
     VolumeChangedHandler = (event) =>{
         this.setState({ volume:event.target.value })
     }
+    AutoPlayChangedHandler = () =>{
+        this.setState((previous) =>({autoPlayChecked:!previous.autoPlayChecked}))
+        console.log(this.state.autoPlayChecked)
+    }
     OnAudioFinished = ()=>{
-        this.setState({isPlayActive:false})
-        this.setState({isPauseActive:true})
+        if(this.state.autoPlayChecked){
+            this.NextClickedHandler()
+        }
+        else{
+            this.setState({isPlayActive:false})
+            this.setState({isPauseActive:true})
+        }        
     }
     
     AudioLengthChangedHandler = (event)=>{
@@ -160,8 +176,8 @@ class Audio extends Component{
                 </Modal>
                 <SearchBar onSubmit = {this.SearchAudioHandler} onChange ={this.SearchInputFieldChangeHandler} randomButtonCliked  = {this.GetRandomAudioURL} book = {this.state.bookTitle} chapters = {this.state.bookChapters}/>
                 {this.state.isPlayActive?
-                <Sound url = {this.state.audioUrls[this.state.urlIndex]} playStatus = {Sound.status.PLAYING} onFinishedPlaying  = {this.OnAudioFinished} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>:
-                <Sound url = {this.state.audioUrls[this.state.urlIndex]} playStatus = {Sound.status.PAUSED} onFinishedPlaying  = {this.OnAudioFinished} volume = {parseInt(this.state.volume)} playbackRate = {parseInt(this.state.speechRate)}/>}
+                <Sound url = {this.state.audioUrls[this.state.urlIndex]} playStatus = {Sound.status.PLAYING} onFinishedPlaying  = {this.OnAudioFinished} volume = {parseInt(this.state.volume)} playbackRate = {this.state.speechRate}/>:
+                <Sound url = {this.state.audioUrls[this.state.urlIndex]} playStatus = {Sound.status.PAUSED} onFinishedPlaying  = {this.OnAudioFinished} volume = {parseInt(this.state.volume)} playbackRate = {this.state.speechRate}/>}
                 <ControlButtons
                     playClicked = {this.PlayClickedHandler}
                     pauseClicked = {this.PauseClickedHandler}
@@ -183,10 +199,12 @@ class Audio extends Component{
                     AudioLengthChangedHandler = {this.AudioLengthChangedHandler}
                     SettingsMenuBackDropClicked = {this.SettingsClickedHandler}
                     VolumeMenuBackDropClicked = {this.VolumeClickedHandler}
+                    autoPlayChecked = {this.state.autoPlayChecked}
+                    AutoPlayChangedHandler = {this.AutoPlayChangedHandler}
                     
                     
                 />
-                <TextField audio = {this.state.audioUrls[this.state.urlIndex]} />
+                <TextField bookTitle = {this.state.bookTitle} audio = {this.state.audioUrls[this.state.urlIndex]} />
 
                 
                 

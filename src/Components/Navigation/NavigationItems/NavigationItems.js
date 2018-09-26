@@ -9,7 +9,7 @@ class NavigationItems extends Component{
     render(){
         return(
             <ul className ={classes.NavigationItems}>
-                <NavigationItem link = '/'>Scores</NavigationItem>
+                <NavigationItem onClick = {this.props.showSiderDrawer}>Scores</NavigationItem>
                 {this.props.token ? 
                 <NavigationItem onClick = {this.props.logout}>Logout</NavigationItem> : 
                 <NavigationItem onClick = {this.props.showAuthContainer}>Login</NavigationItem>
@@ -23,7 +23,7 @@ const mapStateToProps = state => {
     return {
       showAuthContainer : state.showAuthContainer,
       token : state.token,
-    //   user : state.user,
+      user : state.user,
 
     };
   }
@@ -31,6 +31,7 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
       showAuthContainer : ()=> dispatch({type : actionTypes.SHOW_AUTH_COMPONENT}),
+      showSiderDrawer : () => dispatch({type:actionTypes.SHOW_SIDE_DRAWER}),
       logout: () => dispatch({type:actionTypes.LOGOUT_SUCCESSFUL}),
     };
   }

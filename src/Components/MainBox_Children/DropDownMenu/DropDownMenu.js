@@ -19,7 +19,14 @@ const dropDownMenu = (props)=>{
     {props.isSettingsMenuActive ? 
         menu = <div className ={Classes.DropDownMenu}>
                     <BackDrop show ={true} clicked = {props.SettingsMenuBackDropClicked} transparent/>
-                    <SettingsMenu audioLength = {props.audioLength} AudioLengthChangedHandler = {props.AudioLengthChangedHandler}/>
+                    <SettingsMenu 
+                        speechRate = {props.speechRate} 
+                        speechRateHandler = {props.SpeechRateChangedHandler} 
+                        audioLength = {props.audioLength} 
+                        AudioLengthChangedHandler = {props.AudioLengthChangedHandler}
+                        autoPlayChecked = {props.autoPlayChecked}
+                        AutoPlayChangedHandler = {props.AutoPlayChangedHandler}
+                    />
                 </div>
         : null}
     return(menu);

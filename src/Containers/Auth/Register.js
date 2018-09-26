@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import Modal from '../../Components/Modal/Modal'
-
+import Classes from './Auth.css'
 import * as actionTypes from '../../Actions/Auth';
 class Register extends Component {
 
@@ -25,16 +25,7 @@ class Register extends Component {
   render() {
     return (
     <Modal show ={this.props.showRegisterComponent && this.props.showAuthContainer} clicked ={this.props.onBackDropClicked} >
-      <form onSubmit={this.onSubmit}>
-        <fieldset>
-          <legend>Register</legend>
-          {this.props.errors.length > 0 && (
-            <ul>
-              {this.props.errors.map(error => (
-                <li key={error.field}>{error.message}</li>
-              ))}
-            </ul>
-          )}
+      <form className = {Classes.Auth} onSubmit={this.onSubmit}>
           <p>
             <label htmlFor="username">Username</label>
             <input
@@ -50,11 +41,12 @@ class Register extends Component {
           <p>
             <button type="submit">Register</button>
           </p>
-
+          {
+              this.props.errors.length !== 0 ? <p style={{color:"red"}} >{this.props.errors[0]["message"][0]}</p> : null
+          }
           <p>
             Already have an account? <span onClick = {this.props.onLoginClicked}>Login</span>
           </p> 
-        </fieldset>
       </form>
     </Modal>
     )

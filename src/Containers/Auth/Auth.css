@@ -1,0 +1,28 @@
+.Auth {
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.Auth input[type=text], input[type=password]{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.Auth button{
+    color: white;
+    background-color: black;
+    border: none;
+    width : 20%;
+    height: 35px;
+}
+.Auth span{
+    cursor: pointer;
+    color: indianred;
+}

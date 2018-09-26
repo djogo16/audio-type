@@ -13,7 +13,7 @@ class SettingsMenu extends Component{
             showAudioLengthMenu: false,
             repeatValue : 'Once', 
             //audioLength : '10 seconds',
-            autoPlayChecked : false,
+            
         }
     }
     RepeatSelectorClickedHandler = ()=>{
@@ -40,7 +40,7 @@ class SettingsMenu extends Component{
             <Aux>
                 {/* <BackDrop show = {true}/> */}
                 <div className = {Classes.SettingsMenu}>
-                    <span>
+                    {/*<span>
                         <p>Repeat Sentences</p>
                         <div className = {Classes.Menu}>
                             <div className={Classes.ArrowContainer} onClick ={this.RepeatSelectorClickedHandler}><p>{this.state.repeatValue}</p><i></i></div>
@@ -50,23 +50,25 @@ class SettingsMenu extends Component{
                             <label onClick = {this.RepeatValueChangedHandler}>Twice</label> </Aux>: null}
                         </div>
                         
-                    </span>
+                            </span> */}
                     <span>
-                        <p>Audio Length</p>
+                        <p>Speech Rate</p>
                         <div className = {Classes.Menu}>
-                            <div className ={Classes.ArrowContainer} onClick = {this.AudioLengthSelectorClickedHandler}><p>{this.props.audioLength}</p><i></i></div>
+                            <div className ={Classes.ArrowContainer} onClick = {this.AudioLengthSelectorClickedHandler}><p>{this.props.speechRate + "x"}</p><i></i></div>
                             {this.state.showAudioLengthMenu ? <Aux>
-                            <label onClick = {this.props.AudioLengthChangedHandler}>10 seconds</label>
-                            <label onClick = {this.props.AudioLengthChangedHandler}>20 seconds</label>
-                            <label onClick = {this.props.AudioLengthChangedHandler}>30 seconds</label>
-                            <label onClick = {this.props.AudioLengthChangedHandler}>40 seconds</label>
-                            <label onClick = {this.props.AudioLengthChangedHandler}>50 seconds</label>
-                            <label onClick = {this.props.AudioLengthChangedHandler}>60 seconds</label> </Aux>: null}
+                            <label onClick = {this.props.speechRateHandler}>0.5x</label>
+                            <label onClick = {this.props.speechRateHandler}>0.6x</label>
+                            <label onClick = {this.props.speechRateHandler}>0.7x</label>
+                            <label onClick = {this.props.speechRateHandler}>0.8x</label>
+                            <label onClick = {this.props.speechRateHandler}>0.9x</label>
+                            <label onClick = {this.props.speechRateHandler}>1x</label>
+                            <label onClick = {this.props.speechRateHandler}>1.5x</label>
+                            <label onClick = {this.props.speechRateHandler}>2x</label> </Aux>: null}
                         </div>
                     </span>
                     <span>
                         <p>Auto Play Next</p>
-                        <Switch checked = {this.state.autoPlayChecked} onChange = {this.AutoPlayChangedHandler} checkedIcon={false} uncheckedIcon = {false} onColor = '#A52A2A' activeBoxShadow ='0 0 2px 3px #A52A2A'/>
+                        <Switch checked = {this.props.autoPlayChecked} onChange = {this.props.AutoPlayChangedHandler} checkedIcon={false} uncheckedIcon = {false} onColor = '#A52A2A' activeBoxShadow ='0 0 2px 3px #A52A2A'/>
                     </span>
                 </div>
             </Aux>

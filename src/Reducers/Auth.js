@@ -2,6 +2,7 @@ const initialState = {
     showAuthContainer: false,
     showLoginComponent: true,
     showRegisterComponent: false,
+    isSideDrawerOpen: false,
     token: localStorage.getItem("token"),
     isAuthenticated: null,
     isLoading: true,
@@ -26,6 +27,12 @@ export default function auth(state=initialState, action) {
         case 'SHOW_AUTH_COMPONENT' :
             return {...state, showAuthContainer: true, showLoginComponent : true} 
 
+        case 'SHOW_SIDE_DRAWER' :
+            return {...state, isSideDrawerOpen: true}
+    
+        case 'HIDE_SIDE_DRAWER' :
+            return {...state, isSideDrawerOpen: false} 
+     
         case 'USER_LOADING':
             return {...state, isLoading: true};
   
@@ -40,6 +47,7 @@ export default function auth(state=initialState, action) {
         case 'AUTHENTICATION_ERROR':
         case 'LOGIN_FAILED':
         case 'LOGOUT_SUCCESSFUL':
+        case 'REGISTRATION_FAILED':
             localStorage.removeItem("token");
             return {...state, errors: action.data, token: null, user: null,
             isAuthenticated: false, isLoading: false};
@@ -49,13 +57,6 @@ export default function auth(state=initialState, action) {
             localStorage.setItem("token", action.data.token);
             return {...state, ...action.data, isAuthenticated: true, isLoading: false, errors: null};
         
-        case 'AUTHENTICATION_ERROR':
-        case 'LOGIN_FAILED':
-        case 'REGISTRATION_FAILED':
-        case 'LOGOUT_SUCCESSFUL':
-            localStorage.removeItem("token");
-            return {...state, errors: action.data, token: null, user: null,
-                isAuthenticated: false, isLoading: false};
         default:
             return state;
     }
