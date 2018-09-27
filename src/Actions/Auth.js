@@ -18,7 +18,7 @@ export const loadUser = () => {
       if (token) {
         headers["Authorization"] = `Token ${token}`;
       }
-      return fetch("http://127.0.0.1:8000/audio/auth/user", {headers, })
+      return fetch("https://audiotypeapi.herokuapp.com/audio/auth/user", {headers, })
         .then(res => {
           if (res.status < 500) {
             return res.json().then(data => {
@@ -45,7 +45,7 @@ export const login = (username, password) => {
       let headers = {"Content-Type": "application/json"};
        let body = JSON.stringify({username, password});
       //let body = JSON.stringify({"username" : username1, "password" :password1})
-      return fetch("http://127.0.0.1:8000/audio/auth/login/", {headers, body, method: "POST"})
+      return fetch("https://audiotypeapi.herokuapp.com/audio/auth/login/", {headers, body, method: "POST"})
         .then(res => {
           if (res.status < 500) {
             return res.json().then(data => {
@@ -75,7 +75,7 @@ export const register = (username, password) => {
       let headers = {"Content-Type": "application/json"};
       let body = JSON.stringify({username, password});
   
-      return fetch("http://127.0.0.1:8000/audio/auth/register/", {headers, body, method: "POST"})
+      return fetch("https://audiotypeapi.herokuapp.com/audio/auth/register/", {headers, body, method: "POST"})
         .then(res => {
           if (res.status < 500) {
             return res.json().then(data => {

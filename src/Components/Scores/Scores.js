@@ -39,10 +39,10 @@ class Scores extends Component{
         else {
             axios({
                 method: 'get',
-                url: "http://127.0.0.1:8000/audio/auth/user/",
+                url: "https://audiotypeapi.herokuapp.com/audio/auth/user/",
                 headers:{"authorization" : `Token ${token}` , "content-type": "application/json"}
             }).then(res => {
-            axios.get("http://127.0.0.1:8000/audio/scores/?username=" + res.data["username"])
+            axios.get("https://audiotypeapi.herokuapp.com/audio/scores/?username=" + res.data["username"])
             .then(res =>{
                     if(this.state.data.length !==res.data.length){
                         this.setState({data:res.data})

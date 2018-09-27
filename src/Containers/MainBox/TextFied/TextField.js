@@ -37,7 +37,7 @@ class TextField extends  Component{
         else{
             axios({
                 method: 'get',
-                url: "http://127.0.0.1:8000/audio/auth/user/",
+                url: "https://audiotypeapi.herokuapp.com/audio/auth/user/",
                 headers:{"authorization" : `Token ${token}` , "content-type": "application/json"} 
             }).then(res => {
                 let data = {
@@ -50,7 +50,7 @@ class TextField extends  Component{
                     'stars' : this.state.stars,
                     'book_title' : this.props.bookTitle
                 }
-                axios.post("http://127.0.0.1:8000/audio/save/",data);
+                axios.post("https://audiotypeapi.herokuapp.com/audio/save/",data);
     
                 }).catch(error=>console.log(error))
             this.handleBackDropClicked();
@@ -62,7 +62,7 @@ class TextField extends  Component{
         
         
         event.preventDefault();
-        axios.get(`http://127.0.0.1:8000/audio/results/?text=${this.state.text.replace(/;/g, '')}&path=${this.props.audio}`)
+        axios.get(`https://audiotypeapi.herokuapp.com/audio/results/?text=${this.state.text.replace(/;/g, '')}&path=${this.props.audio}`)
             .then(res =>{
                 this.setState({
                     correct_answer: res.data.correct_answer,
