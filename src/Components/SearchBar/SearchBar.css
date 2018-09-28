@@ -2,8 +2,8 @@
     display: flex;
     text-align: center;
     width: 100%;
-    padding-bottom: 10px;
-    justify-content: space-between 
+    /* padding-bottom: 10px; */
+    justify-content: space-around; 
 }
 .SearchBar h3{
     color: indianred;
@@ -13,24 +13,28 @@
 }
 .SearchBar form{
     width:100%;
-    height: 50px;
+    height: 40px;
     display: flex;
     justify-content: space-between;
-    border-width: 2px;
-    border-radius:8px;
-    border-style: solid;
-    border-color: gray;
+    /* border-width: 2px; */
+    /* border-radius:8px; */
     align-items: center;
+    border: 2px solid;
+    background-color: #bdc3c7
 
 }
 .SearchBar input{
     width: 100%;
     height: 100%;
     font-size: 17px;
+    /* color: white; */
     -webkit-appearance: none;
     outline: none;
     border:none;
     box-sizing: border-box;
+    background-color: #bdc3c7;
+    
+    /* margin-bottom: 2px; */
     
 }
 input:-webkit-autofill,
@@ -47,27 +51,19 @@ input:-webkit-autofill:active {
     border:none;
     outline: none;
     color:rgb(179, 156, 156);
-    margin-right: 5px;    
+    margin-right: 5px;  
+    pointer-events: none;  
     
 }
-.SearchButton:hover,
-.SearchButton:active{
-    color: indianred;
-}
-.SearchBar button{
+
+.SearchBar p{
     color: white;
-    background-color: brown;
-    box-shadow: none;
-    border:none;
-    border-radius:8px;
-    outline: none;
-    height: 50px;
-    /* height: 100%; */
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
 }
-.SearchBar button:hover{
-    background-color: indianred;
-    /* border-bottom: 4px solid #ff4488; */
-    color: white
+.SearchBar p:hover{
+    color: indianred;
+    cursor: pointer;
 }
 .Wrapper{
     display:block;
@@ -87,10 +83,14 @@ input:-webkit-autofill:active {
     /* text-align: left; */
     border-bottom: 2px, solid, black;
     box-sizing: border-box;
+    color:black;
+    font-size: 17px;
+
     
 }
 .Wrapper p:hover{
     cursor: pointer;
-    background-color: lightgray;
+    /* background-color: lightgray; */
+    color:indianred;
 }
 

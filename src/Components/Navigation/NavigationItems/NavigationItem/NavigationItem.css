@@ -8,7 +8,7 @@
 }
 .NavigationItem div{
     color: white;
-    background-color: brown;
+    background-color: #141e30;
     text-decoration: none;
     padding: 16px 10px;
     height: 100%;
@@ -16,13 +16,14 @@
     box-sizing: border-box;
     display: block;
     width:100; 
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
 }
 .NavigationItem div:hover,
 .NavigationItem div:active,
 .NavigationItem div.active{
-    background-color: indianred;
+    color: indianred;
     /* border-bottom: 4px solid #ff4488; */
-    color: white;
     cursor: default;
 }
 @media (max-width: 500px){

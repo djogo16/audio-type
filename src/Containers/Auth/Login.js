@@ -21,8 +21,8 @@ class Login extends Component {
         }
     }
     LoginClickedHandler =()=>{
-        
-        this.props.login(this.state.username,this.state.password)
+      this.props.onBackDropClicked()
+      this.props.login(this.state.username,this.state.password)
     }
       render() {
         return (

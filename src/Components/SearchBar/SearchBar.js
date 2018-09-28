@@ -4,6 +4,8 @@ import Aux from '../../hoc/Aux'
 import { Icon } from 'react-icons-kit';
 import {search} from 'react-icons-kit/icomoon/search'
 import BookList from '../../misc/BookList'
+import BackDrop from "../../Components/BackDrop/BackDrop";
+
     
 
 class SearchBar extends Component{
@@ -25,6 +27,10 @@ class SearchBar extends Component{
         }
         return []
     }
+    BackDropClickedHandler = ()=>{
+        this.setState({showAutoCompleteSuggestions:false})
+
+    }
     AutoCompleteSuggestionClicked = (e)=>{
         this.props.onSubmit(e,e.target.innerHTML)
         this.setState({showAutoCompleteSuggestions:false})
@@ -44,18 +50,17 @@ class SearchBar extends Component{
             Suggestions = books.map(book => <p key ={book} onClick = {this.AutoCompleteSuggestionClicked}>{book}</p>)
         return(
             <Aux>
+                <BackDrop show ={this.state.showAutoCompleteSuggestions} clicked = {this.BackDropClickedHandler} transparent/>
                 <div className = {Classes.SearchBar}>
                     <div className = {Classes.Wrapper}>
                         <form  onSubmit = {this.props.onSubmit} autoComplete="off">
+                            <div className={Classes.SearchButton} onClick = {(e) => this.props.onSubmit(e,document.getElementById('searchBook').value )}><Icon icon = {search}/></div>
                             <input  type= 'text' id = 'searchBook' onChange={this.InputOnChange} placeholder = 'Search Book to Read from'/>
-                            <div  className={Classes.SearchButton} onClick = {(e) => this.props.onSubmit(e,document.getElementById('searchBook').value )}><Icon icon = {search}/>
-                            </div>
                         </form>
                         {this.state.showAutoCompleteSuggestions ?
                         <section>{Suggestions}</section> :null}
                     </div>
-                        <h3>or</h3>
-                    <button onClick = {this.props.randomButtonCliked}>Random Audio</button>
+                    <p onClick = {this.props.randomButtonCliked}>Random Audio</p>
                 </div>
                 
                  {/* {console.log(this.props.displayResult)}  */}

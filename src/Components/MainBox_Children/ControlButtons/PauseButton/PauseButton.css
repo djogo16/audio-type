@@ -1,11 +1,11 @@
 .PauseButton{
     display: inline-block;
     border:none;
-    background-color: whitesmoke;
+    background-color: #485563;;
     outline: none;
     margin-top: 8px;
-    color:rgb(179, 156, 156);
-    margin-right: 30px;
+    color:whitesmoke;
+    margin-right: 7px;
     
     
 }

@@ -1,8 +1,8 @@
 .ControlButtons{
-    background-color:whitesmoke;
-    border-top: 2px solid lightcoral;
-    border-bottom: 2px solid lightcoral;
-    height: 35px;
+    background-color:#485563;
+    /* border-top: 2px solid lightcoral;
+    border-bottom: 2px solid lightcoral;*/
+    height: 35px; 
     display: block;
     text-align: center;
     box-sizing: border-box;
