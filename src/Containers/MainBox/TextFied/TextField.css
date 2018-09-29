@@ -19,6 +19,7 @@
       border-bottom:1px solid #FFF;
       box-sizing: border-box;
       position: relative;
+      outline: none;
   }
   .Button {
     color: white;

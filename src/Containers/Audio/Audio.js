@@ -7,6 +7,7 @@ import SearchBar from '../../Components/SearchBar/SearchBar';
 import Modal from '../../Components/Modal/Modal';
 import SearchResult from '../../Components/SearchResult/SearchResult';
 import TextField from '../../Containers/MainBox/TextFied/TextField';
+import Spinner from '../../Components/Spinner/Spinner';
 import axios from 'axios';
 class Audio extends Component{
     constructor(props){
@@ -32,21 +33,21 @@ class Audio extends Component{
             searchInputFieldValue : "",
             audioLength : "20 seconds", //props to use in SettingsMenu.js
             audioRepeatCount : 0,
-            autoPlayChecked : false
+            autoPlayChecked : false,
+            showSpinner: false,
             
         }
     }
     GetRandomAudioURL = ()=> {
-        let config = {
-            headers: {'Access-Control-Allow-Origin': '*'}
-        };
+        this.setState({showSpinner:true})
         this.PlayClickedHandler()
         axios.get("https://audiotypeapi.herokuapp.com/audio/length?length =" + "&length=" + this.state.audioLength.split(" ")[0])
         .then(response =>{ 
             this.setState({
                 audioUrls: ["https://audiotype-dumpdata.s3.amazonaws.com/media/" + response.data.audio], 
                 urlIndex:0, isPlayActive:true,
-                audioSegmentsStartTime: response.data.segments.split(" ")
+                audioSegmentsStartTime: response.data.segments.split(" "),
+                showSpinner:false,
             })
 
         });
@@ -60,7 +61,7 @@ class Audio extends Component{
             alert("Oops Book not Found")
             return
         }
-        this.setState({isSearchResultVisible:true})
+        this.setState({isSearchResultVisible:true, showSpinner:true})
         event.preventDefault()
         let config = {
             headers: {'Access-Control-Allow-Origin': '*'}
@@ -69,7 +70,7 @@ class Audio extends Component{
         axios.get("https://audiotypeapi.herokuapp.com/audio/book?title= " + value.replace(/ /g, "+"))
          .then(res=>{
 
-             this.setState({searchResult:res.data['0'],bookTitle:res.data['0']['title'],bookChapters:res.data['0']['chapters']})
+             this.setState({searchResult:res.data['0'],bookTitle:res.data['0']['title'],bookChapters:res.data['0']['chapters'],showSpinner:false})
          })
          .catch(error => console.log(error))
     }
@@ -79,11 +80,9 @@ class Audio extends Component{
     }
     ChapterClickedHandler = (event)=>{
         this.setState({audioUrls:[],texts:[],audioSegmentsStartTime: []})
-        this.setState({isSearchResultVisible:false})
+        this.setState({isSearchResultVisible:false, showSpinner:true})
         this.PlayClickedHandler()
-        let config = {
-            headers: {'Access-Control-Allow-Origin': '*'}
-        };
+        
         
         axios.get("https://audiotypeapi.herokuapp.com/audio/chapter?chapter_id=" + event.target.id + "&length=" + this.state.audioLength.split(" ")[0]) 
         .then(res =>{
@@ -91,11 +90,12 @@ class Audio extends Component{
                 this.setState(previousState =>({
                     audioUrls:previousState.audioUrls.concat(res.data[i]["audio"]),
                     texts: previousState.texts.concat(res.data[i]["text"]),
+                    showSpinner:false,
                     audioSegmentsStartTime: previousState.audioSegmentsStartTime.concat([res.data[i]["segments"].split(" ")])
                 }))
             }
         })
-        .catch(error => console.log(error))
+        .catch(error => this.setState({showSpinner:false}))
     }
     
 
@@ -177,7 +177,7 @@ class Audio extends Component{
                 <SearchBar onSubmit = {this.SearchAudioHandler} onChange ={this.SearchInputFieldChangeHandler} randomButtonCliked  = {this.GetRandomAudioURL} book = {this.state.bookTitle} chapters = {this.state.bookChapters}/>
                 {this.state.isPlayActive?
                 <Sound url = {this.state.audioUrls[this.state.urlIndex]} playStatus = {Sound.status.PLAYING} onFinishedPlaying  = {this.OnAudioFinished} volume = {parseInt(this.state.volume)} playbackRate = {this.state.speechRate}/>:
-                <Sound url = {this.state.audioUrls[this.state.urlIndex]} playStatus = {Sound.status.PAUSED} onFinishedPlaying  = {this.OnAudioFinished} volume = {parseInt(this.state.volume)} playbackRate = {this.state.speechRate}/>}
+                <Sound url = {this.state.audioUrls[this.state.urlIndex]} playStatus = {Sound.status.PAUSED} onFinishedPlaying  = {this.OnAudioFinished} volume = {parseInt(this.state.volume)} playbackRate = {this.state.speechRate} />}
                 <ControlButtons
                     playClicked = {this.PlayClickedHandler}
                     pauseClicked = {this.PauseClickedHandler}
@@ -188,6 +188,7 @@ class Audio extends Component{
                     previousClicked = {this.PreviousClickedHandler}
                     nextClicked = {this.NextClickedHandler}
                 />
+                
                 <DropDownMenu 
                     isSettingsMenuActive = {this.state.isSettingsMenuActive} 
                     isVolumeMenuActive = {this.state.isVolumeMenuActive}
@@ -204,6 +205,7 @@ class Audio extends Component{
                     
                     
                 />
+                { this.state.showSpinner ? <Spinner/> : null}
                 <TextField bookTitle = {this.state.bookTitle} audio = {this.state.audioUrls[this.state.urlIndex]} />
 
                 

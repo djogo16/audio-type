@@ -81,7 +81,7 @@ input:-webkit-autofill:active {
 .Wrapper p{
     /* background-color: white; */
     /* text-align: left; */
-    border-bottom: 2px, solid, black;
+    /* border-bottom: 2px, solid, black; */
     box-sizing: border-box;
     color:black;
     font-size: 17px;
