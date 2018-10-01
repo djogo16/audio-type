@@ -10,3 +10,9 @@
     left:0;
     right:0;
 }
+@media (max-width: 500px) {
+    .Content {
+        width: 95%;
+        /* left: calc(50% - 400px); */
+    }
+}

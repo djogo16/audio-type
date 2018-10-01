@@ -93,4 +93,9 @@ input:-webkit-autofill:active {
     /* background-color: lightgray; */
     color:indianred;
 }
+@media (max-width: 600px) {
+    .SearchBar input {
+        font-size: 14.5px;
+    }
+}
 

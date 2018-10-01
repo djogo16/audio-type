@@ -5,7 +5,7 @@ import Logo from '../../Logo/Logo.js'
 import ToggleButton from '../ToggleButton/ToggleButton'
 const toolbar  = (props)=>(
     <header className = {classes.Toolbar}>
-        <ToggleButton clicked = {props.clickedToggle}/>
+        {/* <ToggleButton clicked = {props.clickedToggle}/> */}
         <Logo/>
         <nav className={classes.DesktopOnly}>
             <NavigationItems clicked = {props.clickedToggle}/>

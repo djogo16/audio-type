@@ -45,7 +45,7 @@ class Audio extends Component{
         .then(response =>{ 
             this.setState({
                 audioUrls: ["https://audiotype-dumpdata.s3.amazonaws.com/media/" + response.data.audio], 
-                urlIndex:0, isPlayActive:true,
+                urlIndex:0, isPlayActive:true,isPauseActive:false,
                 audioSegmentsStartTime: response.data.segments.split(" "),
                 showSpinner:false,
             })
@@ -71,6 +71,7 @@ class Audio extends Component{
          .then(res=>{
 
              this.setState({searchResult:res.data['0'],bookTitle:res.data['0']['title'],bookChapters:res.data['0']['chapters'],showSpinner:false})
+
          })
          .catch(error => console.log(error))
     }
@@ -79,9 +80,8 @@ class Audio extends Component{
         console.log(this.state.searchInputFieldValue)
     }
     ChapterClickedHandler = (event)=>{
-        this.setState({audioUrls:[],texts:[],audioSegmentsStartTime: []})
+        this.setState({audioUrls:[],texts:[],audioSegmentsStartTime: [],isPlayActive:true,isPauseActive:false})
         this.setState({isSearchResultVisible:false, showSpinner:true})
-        this.PlayClickedHandler()
         
         
         axios.get("https://audiotypeapi.herokuapp.com/audio/chapter?chapter_id=" + event.target.id + "&length=" + this.state.audioLength.split(" ")[0]) 

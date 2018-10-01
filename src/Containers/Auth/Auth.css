@@ -26,3 +26,10 @@
     cursor: pointer;
     color: indianred;
 }
+
+@media (max-width: 600px) {
+    .Auth button {
+        width: 50%;
+        
+    }
+}
