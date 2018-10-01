@@ -127,7 +127,7 @@ class TextField extends  Component{
                 <Modal show = {this.state.showResult} clicked = {this.handleBackDropClicked}>
                     {result}
                 </Modal>
-                <form onSubmit = {this.handleSubmit} style={{height :'100%',position:'relative',zIndex:'100'}}>
+                <form onSubmit = {this.handleSubmit} className={Classes.Form}>
                     <textarea id = 'textarea'spellCheck = 'false' className = {Classes.TextField} onChange = {this.handleChangedText} name="message" rows="10" cols="20" value = {this.state.text}></textarea>
                     <br/>
                     <input className = {Classes.Button} value ="Submit" type="submit"/>
