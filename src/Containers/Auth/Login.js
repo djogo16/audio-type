@@ -15,16 +15,15 @@ class Login extends Component {
     }
     onSubmit = e => {
         e.preventDefault();
-        this.props.login(this.state.username, this.state.password);
-        if (this.props.isAuthenticated) {
-          this.props.onBackDropClicked()
+        this.props.login(this.state.username, this.state.password).then(()=>{
+          if(this.props.isAuthenticated){
+            this.props.onBackDropClicked()
+          }
         }
-    }
-    LoginClickedHandler =()=>{
-      this.props.onBackDropClicked()
-      this.props.login(this.state.username,this.state.password)
+        );
     }
       render() {
+        
         return (
           <Modal show ={this.props.showLoginComponent && this.props.showAuthContainer} clicked ={this.props.onBackDropClicked} >
             <form className ={Classes.Auth} onSubmit={this.onSubmit}>
@@ -42,7 +41,7 @@ class Login extends Component {
                     onChange={e => this.setState({password: e.target.value})} />
                 </p>
                 <p>
-                  <button type="submit" onClick = {this.LoginClickedHandler}>Login</button>
+                  <button type="submit" >Login</button>
                 </p>
                 {
                   this.props.errors.length !== 0 ? <p style={{color:"red"}} >{this.props.errors[0]["message"][0]}</p> : null
@@ -73,6 +72,7 @@ const mapStateToProps = state => {
     isAuthenticated: state.isAuthenticated,
   };
 }
+
 
 const mapDispatchToProps = dispatch => {
   return {

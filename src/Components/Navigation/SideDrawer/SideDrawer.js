@@ -1,5 +1,4 @@
 import React from 'react';
-import NavigationItems from '../NavigationItems/NavigationItems.js'
 import classes from './SideDrawer.css';
 import Aux from '../../../hoc/Aux.js'
 import BackDrop from '../../BackDrop/BackDrop';

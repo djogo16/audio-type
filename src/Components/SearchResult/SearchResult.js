@@ -3,10 +3,7 @@ import Classes from './SearchResult.css'
 import Aux from '../../hoc/Aux'
 
 class SearchResult extends Component{
-    constructor(props){
-        super(props)
-    }
-
+    
     render(){
         let chapters = []
         for (let chapter in this.props.chapters){
